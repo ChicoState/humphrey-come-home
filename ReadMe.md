@@ -8,6 +8,7 @@ Combine nearby shelters into one searchable site and use photo-based matching to
 - Frontend (Django + ReactJS)
 - Environment (Docker Compose)
 - Database (Supabase w/ PostGIS)
+- Map Integration (Google Maps API)
 
 ## License
 GPL 3.0
