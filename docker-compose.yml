@@ -1,0 +1,30 @@
+services:
+  # Ref: https://www.docker.com/blog/how-to-dockerize-django-app/
+  # Ref: https://github.com/simon-tarr/geodjango-docker/tree/master
+  django-web:
+    build: .
+    container_name: django-docker
+    restart: always
+    expose: 
+      - 8000
+    links:
+      - db
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    working_dir: /app/mysite
+    
+  db:
+    image: postgis/postgis:18-3.6
+    restart: always
+    container_name: db
+    expose:
+      - 5432
+    volumes: ./postgres/db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db_name
+
+
