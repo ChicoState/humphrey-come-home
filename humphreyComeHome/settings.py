@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'humphreyComeHome.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': BASE_DIR / 'db.postgresql',
+        'NAME': BASE_DIR / 'db_name',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'db',
