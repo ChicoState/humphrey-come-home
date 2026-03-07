@@ -10,10 +10,8 @@ services:
     build: .
     container_name: django-docker
     restart: always
-    ports:
+    ports: 
       - "8000:8000"
-    links:
-      - postgis-db
     depends_on:
       - postgis-db
     volumes:
