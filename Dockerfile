@@ -12,11 +12,16 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     binutils \
     libproj-dev \
+    postgresql-client \
     gdal-bin
 
 ADD requirements.txt /app
 
-RUN pip install --upgrade pip && pip install -r /app/requirements.txt
+RUN pip install --upgrade pip && pip install --no-cache-dir -r /app/requirements.txt
 
+COPY . /app
 
+EXPOSE 8000
 
+ENTRYPOINT ["./wait_for_pg.sh"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

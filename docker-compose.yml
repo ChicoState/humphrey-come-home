@@ -1,30 +1,40 @@
+---
+# Docker Compose
+# Author: Bryce Emery
+# 2026March03
+# Ref: https://www.docker.com/blog/how-to-dockerize-django-app/
+# Ref: https://github.com/simon-tarr/geodjango-docker/tree/master
+
 services:
-  # Ref: https://www.docker.com/blog/how-to-dockerize-django-app/
-  # Ref: https://github.com/simon-tarr/geodjango-docker/tree/master
   django-web:
     build: .
     container_name: django-docker
     restart: always
-    expose: 
-      - 8000
+    ports:
+      - "8000:8000"
     links:
-      - db
+      - postgis-db
     depends_on:
-      - db
+      - postgis-db
     volumes:
       - .:/app
-    working_dir: /app/mysite
-    
-  db:
+    working_dir: /app
+    env_file:
+      - .env 
+#    command: python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+
+  postgis-db:
     image: postgis/postgis:18-3.6
     restart: always
-    container_name: db
+    container_name: hch_db
     expose:
       - 5432
-    volumes: ./postgres/db-data:/var/lib/postgresql/data
+    volumes:
+      - postgis_data:/var/lib/postgresql
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=db_name
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
 
-
+volumes:
+  postgis_data:
