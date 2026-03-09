@@ -17,6 +17,9 @@ env/
 media/
 staticfiles/
 
+# PostGIS stuff
+postgis_data/
+
 # IDE/editor stuff
 .vscode/
 .idea/
