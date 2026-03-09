@@ -15,5 +15,14 @@ done
 
 python manage.py makemigrations
 python manage.py migrate
+# Create superuser if does not already exist
+# I got this check with help from a Chatbot --Bryce
+if python manage.py shell -c "from django.contrib.auth.models import User; import sys; sys.exit(0 if User.objects.filter(username='${DJANGO_SUPERUSER_NAME}').exists() else 1)"; then
+  echo "Initial superuser exists ===>"
+else
+  echo "===> Creating initial superuser"
+  python manage.py createsuperuser --username="${DJANGO_SUPERUSER_NAME}" --email="${DJANGO_SUPERUSER_MAIL}" --no-input
+fi
+
 
 exec "$@"
