@@ -21,3 +21,21 @@ class Shelter(models.Model):
 
     def __str__(self):
         return self.name
+
+class Animal(models.Model):
+    intake_date = models.CharField(max_length=100, blank=True)
+    breed = models.CharField(max_length=200, blank=True)
+    color = models.CharField(max_length=200, blank=True)
+    sex = models.CharField(max_length=50, blank=True)
+    age = models.CharField(max_length=50, blank=True)
+    note = models.TextField(blank=True)
+    location = models.CharField(max_length=200, blank=True)
+
+    animal_id = models.CharField(max_length=100, unique=True, blank=True, null=True)
+    source_url = models.URLField(blank=True, null=True)
+    shelter_location = models.CharField(max_length=100, blank=True)
+    photo = models.URLField(blank=True)
+
+    def __str__(self):
+        return f"{self.animal_id} - {self.breed}"
+    
