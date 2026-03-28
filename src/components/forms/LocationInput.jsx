@@ -13,6 +13,7 @@
  */
 import { useState, useRef, useEffect, useCallback } from "react";
 import { ArrowUp, Camera, MapPin } from "lucide-react";
+import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import Button from "@/components/ui/Button";
 import SuggestionList from "@/components/ui/SuggestionList";
 import usePlacesAutocomplete from "@/hooks/usePlacesAutocomplete";
@@ -35,6 +36,7 @@ export default function LocationInput({
   const inputRef = useRef(null);
   const wrapperRef = useRef(null);
 
+  const geocodingLib = useMapsLibrary("geocoding");
   const places = usePlacesAutocomplete();
   const suggestions = places.suggestions;
 
@@ -103,7 +105,8 @@ export default function LocationInput({
       async ({ coords: { latitude, longitude } }) => {
         let address = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
         try {
-          const geocoder = new window.google.maps.Geocoder();
+          if (!geocodingLib) throw new Error("Geocoding not loaded");
+          const geocoder = new geocodingLib.Geocoder();
           const { results } = await geocoder.geocode({ location: { lat: latitude, lng: longitude } });
           if (results?.[0]) address = results[0].formatted_address;
         } catch { /* use coordinate fallback */ }

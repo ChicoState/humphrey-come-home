@@ -27,7 +27,7 @@ export default function Image({
       width={width}
       height={height}
       loading={priority ? 'eager' : 'lazy'}
-      fetchpriority={priority ? 'high' : 'auto'}
+      fetchPriority={priority ? 'high' : 'auto'}
       decoding="async"
       draggable={false}
       className={className}

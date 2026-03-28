@@ -7,21 +7,13 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { APIProvider } from "@vis.gl/react-google-maps";
 import { AuthProvider } from "./context/AuthContext";
 import App from "./App";
 
 import "./styles/reset.css";
 import "./styles/variables.css";
 import "./styles/global.css";
-
-// Load Google Maps Places API
-const gmKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-if (gmKey && /^[A-Za-z0-9_-]+$/.test(gmKey)) {
-  const s = document.createElement("script");
-  s.src = `https://maps.googleapis.com/maps/api/js?key=${gmKey}&libraries=places&loading=async`;
-  s.async = true;
-  document.head.appendChild(s);
-}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,12 +26,14 @@ const queryClient = new QueryClient({
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ""}>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </APIProvider>
   </StrictMode>
 );

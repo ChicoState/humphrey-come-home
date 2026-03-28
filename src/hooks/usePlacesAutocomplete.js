@@ -13,28 +13,14 @@
  *   ready: boolean
  * }}
  */
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
+import { useMapsLibrary } from "@vis.gl/react-google-maps";
 
 export default function usePlacesAutocomplete({ debounce = 250 } = {}) {
   const [suggestions, setSuggestions] = useState([]);
-  const [ready, setReady] = useState(false);
   const debounceRef = useRef(null);
   const sessionTokenRef = useRef(null);
-
-  useEffect(() => {
-    const check = () => {
-      if (window.google?.maps?.places?.AutocompleteSuggestion) {
-        setReady(true);
-        return true;
-      }
-      return false;
-    };
-    if (check()) return;
-    const interval = setInterval(() => {
-      if (check()) clearInterval(interval);
-    }, 500);
-    return () => clearInterval(interval);
-  }, []);
+  const places = useMapsLibrary("places");
 
   const fetchSuggestions = useCallback((input) => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -43,13 +29,13 @@ export default function usePlacesAutocomplete({ debounce = 250 } = {}) {
       return;
     }
     debounceRef.current = setTimeout(async () => {
-      if (!window.google?.maps?.places?.AutocompleteSuggestion) return;
+      if (!places) return;
       if (!sessionTokenRef.current) {
-        sessionTokenRef.current = new window.google.maps.places.AutocompleteSessionToken();
+        sessionTokenRef.current = new places.AutocompleteSessionToken();
       }
       try {
         const { suggestions: results } =
-          await window.google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
+          await places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
             input,
             sessionToken: sessionTokenRef.current,
           });
@@ -58,28 +44,27 @@ export default function usePlacesAutocomplete({ debounce = 250 } = {}) {
         setSuggestions([]);
       }
     }, debounce);
-  }, [debounce]);
+  }, [debounce, places]);
 
   const selectSuggestion = useCallback(async (prediction) => {
     const text = prediction.text?.toString() || "";
     setSuggestions([]);
     try {
-      const { Place } = window.google.maps.places;
-      const place = new Place({ id: prediction.placeId });
+      const place = new places.Place({ id: prediction.placeId });
       await place.fetchFields({ fields: ["location", "formattedAddress"] });
-      sessionTokenRef.current = new window.google.maps.places.AutocompleteSessionToken();
+      sessionTokenRef.current = new places.AutocompleteSessionToken();
       return {
         address: place.formattedAddress || text,
         lat: place.location?.lat(),
         lng: place.location?.lng(),
       };
     } catch {
-      sessionTokenRef.current = new window.google.maps.places.AutocompleteSessionToken();
+      sessionTokenRef.current = new places.AutocompleteSessionToken();
       return { address: text, lat: null, lng: null };
     }
-  }, []);
+  }, [places]);
 
   const clearSuggestions = useCallback(() => setSuggestions([]), []);
 
-  return { suggestions, fetchSuggestions, selectSuggestion, clearSuggestions, ready };
+  return { suggestions, fetchSuggestions, selectSuggestion, clearSuggestions, ready: !!places };
 }
