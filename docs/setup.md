@@ -25,7 +25,7 @@ If setting up a new project:
 1. Create a project at [supabase.com/dashboard](https://supabase.com/dashboard)
 2. In the SQL Editor, run the schema from `docs/database-schema.md`
 3. Create two **public** storage buckets: `avatars` and `posts`
-4. Go to Dashboard > Settings > API and copy the **Project URL** and **anon public** key
+4. Go to Dashboard > Settings > API and copy the **Project URL** and **publishable** key
 
 ## 3. Google Maps API Key
 
@@ -42,7 +42,7 @@ Fill in your `.env`:
 
 ```env
 VITE_SUPABASE_URL=https://your-project-id.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key
+VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 VITE_GOOGLE_MAPS_API_KEY=your-google-maps-api-key
 ```
 
@@ -60,7 +60,7 @@ npm run preview    # preview the production build locally
 
 | Problem | Fix |
 |---|---|
-| "Invalid API key" in console | Check `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in `.env`. Restart dev server after changes. |
+| "Invalid API key" in console | Check `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` in `.env`. Restart dev server after changes. |
 | Autocomplete not working | Verify Places API is enabled in Google Cloud and API key isn't restricted to a different referrer. |
 | "Permission denied for table" | RLS policies may be missing. Check `docs/database-schema.md` for the expected policies. |
 | Port 5173 in use | `npm run dev -- --port 3000` |
