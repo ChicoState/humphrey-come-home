@@ -31,7 +31,6 @@ Sessions are persisted in `localStorage` by the Supabase client.
 | Auth state | React Context (`AuthContext`) |
 | UI state (forms, toggles) | `useState` |
 
-No Redux, Zustand, or other global state libraries.
 
 ## Routes
 
@@ -56,7 +55,7 @@ Defined in `App.jsx`. All routes are lazy-loaded except Landing.
 ## External Services
 
 - **Supabase** — database, auth, file storage
-- **Google Maps Places API** — location autocomplete in `LocationInput`
+- **Google Maps** (`@vis.gl/react-google-maps`) — location autocomplete, geocoding
 
 ## Storage Buckets
 
