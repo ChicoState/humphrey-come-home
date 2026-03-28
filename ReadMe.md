@@ -9,6 +9,7 @@ React 19, Vite 6, React Router 7, TanStack Query 5, Supabase, CSS Modules
 ## Quick Start
 
 ```bash
+# Install Node.js 18+ if you don't have it: https://nodejs.org
 git clone https://github.com/ChicoState/humphrey-come-home.git
 cd humphrey-come-home
 npm install             # install the required dependencies using node package manager
