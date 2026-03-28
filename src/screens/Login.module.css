@@ -1,0 +1,38 @@
+.error {
+  padding: 12px 16px;
+  background: var(--color-error-light);
+  color: var(--color-error);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+  margin: 16px 0 0;
+}
+
+.link {
+  color: var(--color-primary-600);
+  font-weight: 600;
+  text-decoration: none;
+  background: none;
+  border: none;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

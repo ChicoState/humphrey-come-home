@@ -1,0 +1,42 @@
+.card,
+.link {
+  background-color: white;
+  border-radius: 16px;
+  border: 1px solid var(--color-gray-100);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.elevated,
+.link.elevated {
+  box-shadow: var(--shadow-md);
+}
+
+/* Clickable cards (onClick) */
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover,
+.link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.clickable:focus-visible,
+.link:focus-visible {
+  outline: 2px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+
+/* Link cards (to prop) */
+.link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.link.elevated:hover {
+  box-shadow: var(--shadow-lg);
+}

@@ -1,0 +1,46 @@
+/* Static scroll rail */
+.rail {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+.rail > * {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+/* Animated marquee */
+.marquee {
+  overflow: clip;
+  overflow-clip-margin: 12px;
+  padding: 12px 0;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 48px, black calc(100% - 48px), transparent);
+  mask-image: linear-gradient(to right, transparent, black 48px, black calc(100% - 48px), transparent);
+}
+
+.track {
+  display: flex;
+  gap: var(--gap, 12px);
+  width: max-content;
+  will-change: transform;
+  animation: marquee var(--speed, 28s) linear infinite;
+}
+
+.marquee:hover .track {
+  animation-play-state: paused;
+}
+
+.segment {
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-50% - var(--gap, 12px) / 2), 0, 0);
+  }
+}

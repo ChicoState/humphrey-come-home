@@ -1,0 +1,93 @@
+/* Marquee container */
+.marquee {
+  overflow: clip;
+  overflow-clip-margin: 40px;
+  padding: 40px 0;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 64px, black calc(100% - 64px), transparent);
+  mask-image: linear-gradient(to right, transparent, black 64px, black calc(100% - 64px), transparent);
+}
+
+.track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  will-change: transform;
+  animation: marquee var(--speed, 40s) linear infinite;
+}
+
+.marquee:hover .track {
+  animation-play-state: paused;
+}
+
+.reverse .track {
+  animation-direction: reverse;
+}
+
+.segment {
+  display: flex;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-50% - 12px), 0, 0);
+  }
+}
+
+/* Polaroid card */
+.polaroid {
+  flex-shrink: 0;
+  width: 180px;
+  background: white;
+  padding: 10px 10px 32px;
+  border-radius: 4px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+  transform: rotate(var(--angle, 0deg));
+  transition: transform 250ms ease, box-shadow 250ms ease, z-index 0ms;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.08) translateY(-8px);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.imageWrap {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--color-gray-100);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.label {
+  display: block;
+  margin-top: 10px;
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-gray-600);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

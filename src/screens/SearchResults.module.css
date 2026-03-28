@@ -1,0 +1,81 @@
+/* Tabs — pill segmented control */
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--color-gray-100);
+  border-radius: var(--radius-full);
+  margin-bottom: 24px;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-gray-500);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.tab:hover {
+  color: var(--color-gray-700);
+}
+
+.tabActive {
+  background: white;
+  color: var(--color-gray-900);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.tabContent {
+  min-height: 300px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 64px 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.animalGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.shelterCard { display: flex; flex-direction: column; gap: 8px; }
+.shelterName { font-size: 1rem; font-weight: 600; color: var(--color-gray-900); margin: 0; }
+.shelterDetail { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--color-gray-500); margin: 0; }
+
+.animalCard { display: flex; flex-direction: column; gap: 10px; }
+.animalPhoto { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; }
+.animalInfo { display: flex; flex-direction: column; gap: 2px; }
+.animalName { font-size: 0.9375rem; font-weight: 600; color: var(--color-gray-900); margin: 0; }
+.animalMeta { font-size: 0.8125rem; color: var(--color-gray-500); margin: 0; }
+.animalShelter { font-size: 0.75rem; color: var(--color-gray-400); margin: 0; }
+
+.postCard { display: flex; flex-direction: column; gap: 8px; }
+.postHeader { display: flex; align-items: center; gap: 10px; }
+.badge { display: inline-flex; padding: 4px 10px; border-radius: var(--radius-full); font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.badgeLost { background: var(--color-error-light); color: var(--color-error); }
+.badgeFound { background: var(--color-tertiary-100); color: var(--color-tertiary-700); }
+.badgeReunited { background: var(--color-success-light); color: var(--color-success); }
+.postTitle { font-size: 1rem; font-weight: 600; color: var(--color-gray-900); margin: 0; }
+.postDetails { display: flex; flex-wrap: wrap; gap: 16px; }
+.postDetail { display: flex; align-items: center; gap: 4px; font-size: 0.8125rem; color: var(--color-gray-500); }
+
+@media (max-width: 480px) {
+  .tabs { border-radius: 16px; }
+  .tab { border-radius: 12px; padding: 8px 12px; font-size: 0.8125rem; }
+  .animalGrid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+}
