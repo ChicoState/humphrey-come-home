@@ -5,7 +5,8 @@
  */
 import { useMemo } from "react";
 import { useParams, useNavigate } from "react-router";
-import { Building2, MapPin, Phone, SearchX, Globe } from "lucide-react";
+import { Building2, MapPin, Phone, SearchX, Globe, ExternalLink } from "lucide-react";
+import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { VStack, HStack, Text, Container } from "@/components/primitives";
 import EmptyState from "@/components/ui/EmptyState";
@@ -63,6 +64,11 @@ export default function AnimalDetail() {
       <Container size="md">
         <VStack gap={4} style={{ paddingTop: 24 }}>
           <VStack gap={2} align="center" style={{ textAlign: 'center' }}>
+            {animal.status && animal.status !== 'available' && (
+              <Badge variant={{ found: 'warning', reunited: 'success' }[animal.status]}>
+                {animal.status}
+              </Badge>
+            )}
             <Text variant="h1">{animal.name || "Unknown"}</Text>
             {animal.breed && (
               <Text variant="lg" color="secondary">
@@ -112,6 +118,11 @@ export default function AnimalDetail() {
                 {shelter.website && (
                   <Button variant="outline" size="md" icon={Globe} onClick={() => window.open(shelter.website, '_blank')}>
                     Website
+                  </Button>
+                )}
+                {animal.source_url && (
+                  <Button variant="outline" size="md" icon={ExternalLink} onClick={() => window.open(animal.source_url, '_blank')}>
+                    Original Listing
                   </Button>
                 )}
               </HStack>
