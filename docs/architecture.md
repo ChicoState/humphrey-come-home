@@ -47,6 +47,7 @@ Defined in `App.jsx`. All routes are lazy-loaded except Landing.
 | `/image-search` | ImageSearch | No |
 | `/posts/:id` | PostDetail | No |
 | `/animals/:id` | AnimalDetail | No |
+| `/shelters/:id` | ShelterDetail | No |
 | `/profile` | Profile | Yes |
 | `/settings` | Settings | Yes |
 | `/privacy`, `/terms`, `/cookies` | Legal pages | No |

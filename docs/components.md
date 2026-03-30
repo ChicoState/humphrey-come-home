@@ -17,6 +17,8 @@ Quick reference for the shared component library. Each component has a header co
 | **DashedBox** | SVG dashed-border container. |
 | **PolaroidRail** | Infinite-scroll marquee of polaroid-style photo cards. |
 | **SuggestionList** | Dropdown list for autocomplete suggestions. Used by LocationInput. |
+| **AnimalCard** | Clickable card showing an animal's photo, name, and breed. Links to `/animals/:id`. |
+| **ShelterCard** | Clickable card showing a shelter's name, address, and phone. Links to `/shelters/:id`. |
 
 ## Form Components (`src/components/forms/`)
 
