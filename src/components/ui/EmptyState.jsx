@@ -7,7 +7,7 @@
  * @prop {ReactNode} [button]   — optional CTA (usually a <Button>)
  * @prop {boolean}   [compact]  — smaller layout for inline usage
  */
-import { VStack, Text } from "@/components/primitives";
+import { VStack, HStack, Text } from "@/components/primitives";
 import Badge from "./Badge";
 import Button from "./Button";
 import styles from "./EmptyState.module.css";
@@ -16,9 +16,9 @@ export default function EmptyState({ icon: Icon, title, subtitle, button, compac
   return (
     <div className={`${styles.container} ${compact ? styles.compact : ''}`}>
       {Icon && (
-        <div className={styles.iconWrap}>
+        <HStack align="center" justify="center">
           <Icon size={48} strokeWidth={2.2} className={styles.icon} />
-        </div>
+        </HStack>
       )}
       {badge && <Badge variant="warning">{badge}</Badge>}
       <VStack gap={2} align="center" style={{ textAlign: 'center' }}>

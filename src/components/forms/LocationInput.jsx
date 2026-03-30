@@ -14,6 +14,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { ArrowUp, Camera, MapPin } from "lucide-react";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
+import { HStack } from "@/components/primitives";
 import Button from "@/components/ui/Button";
 import SuggestionList from "@/components/ui/SuggestionList";
 import usePlacesAutocomplete from "@/hooks/usePlacesAutocomplete";
@@ -138,7 +139,7 @@ export default function LocationInput({
           autoComplete="off"
         />
 
-        <div className={styles.actions}>
+        <HStack align="center" wrap gap={1}>
           {onCameraAction && (
             <Button variant="secondary" size="sm" icon={Camera} onClick={onCameraAction}>
               Photo
@@ -149,7 +150,7 @@ export default function LocationInput({
           </Button>
           <div className={styles.spacer} />
           <Button variant="primary" size="sm" icon={ArrowUp} disabled={!canSubmit} onClick={onSubmit} aria-label="Submit search" />
-        </div>
+        </HStack>
 
         {error && <p className={styles.errorMessage} role="alert">{error}</p>}
       </div>

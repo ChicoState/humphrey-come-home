@@ -61,7 +61,7 @@ export default function AnimalDetail() {
       )}
 
       <Container size="md">
-        <div className={styles.content}>
+        <VStack gap={4} style={{ paddingTop: 24 }}>
           <VStack gap={2} align="center" style={{ textAlign: 'center' }}>
             <Text variant="h1">{animal.name || "Unknown"}</Text>
             {animal.breed && (
@@ -93,7 +93,7 @@ export default function AnimalDetail() {
             <div className={styles.shelterCard}>
               <Building2 size={36} className={styles.shelterIcon} />
               <Text variant="subtitle">{shelter.name}</Text>
-              <div className={styles.shelterMeta}>
+              <HStack gap={4} align="center" wrap justify="center">
                 {shelter.address && (
                   <span className={styles.shelterDetail}>
                     <MapPin size={16} /> {shelter.address}
@@ -104,7 +104,7 @@ export default function AnimalDetail() {
                     <Phone size={16} /> {shelter.phone}
                   </span>
                 )}
-              </div>
+              </HStack>
               <HStack gap={3} wrap justify="center" style={{ marginTop: 8 }}>
                 <Button variant="primary" size="md" icon={Building2} onClick={() => navigate(`/shelters/${shelter.id}`)}>
                   View Shelter
@@ -117,7 +117,7 @@ export default function AnimalDetail() {
               </HStack>
             </div>
           )}
-        </div>
+        </VStack>
       </Container>
     </VStack>
   );

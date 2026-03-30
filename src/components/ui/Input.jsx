@@ -9,6 +9,7 @@
  * @prop {string}  [className]
  * ...rest is spread onto the <input>/<textarea>
  */
+import { VStack } from "@/components/primitives";
 import styles from "./Input.module.css";
 
 export default function Input({
@@ -23,16 +24,12 @@ export default function Input({
   const isTextarea = type === "textarea";
   const InputElement = isTextarea ? "textarea" : "input";
 
-  const wrapperClasses = [styles.wrapper, className ?? ""]
-    .filter(Boolean)
-    .join(" ");
-
   const inputClasses = [styles.input, error ? styles.error : ""]
     .filter(Boolean)
     .join(" ");
 
   return (
-    <div className={wrapperClasses}>
+    <VStack gap={1} className={className}>
       {label && (
         <label htmlFor={id} className={styles.label}>
           {label}
@@ -54,6 +51,6 @@ export default function Input({
           {error}
         </p>
       )}
-    </div>
+    </VStack>
   );
 }

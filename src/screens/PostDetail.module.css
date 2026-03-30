@@ -5,13 +5,6 @@
   border-radius: var(--radius);
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-
 .ownerActions {
   padding-top: var(--space-sm);
 }

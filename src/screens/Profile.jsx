@@ -47,7 +47,7 @@ export default function Profile() {
               <Text variant="body" color="muted">{user.email}</Text>
             </VStack>
 
-            <div className={styles.details}>
+            <HStack gap={4} align="center" wrap justify="center">
               {profile?.home_location && (
                 <span className={styles.detail}>
                   <MapPin size={14} /> {profile.home_location}
@@ -56,7 +56,7 @@ export default function Profile() {
               <span className={styles.detail}>
                 <Calendar size={14} /> Joined {formatDate(profile?.joined_at || user.created_at, "month-year")}
               </span>
-            </div>
+            </HStack>
 
             <HStack gap={2}>
               <Button variant="outline" size="sm" icon={Settings} onClick={() => navigate("/settings")}>
@@ -75,7 +75,7 @@ export default function Profile() {
         {postsLoading ? (
           <div className={styles.loading}><Spinner size="lg" /></div>
         ) : userPosts?.length > 0 ? (
-          <div className={styles.postsList}>
+          <VStack gap={1}>
             {userPosts.map((post) => (
               <button
                 key={post.id}
@@ -89,7 +89,7 @@ export default function Profile() {
                 <Text variant="xs" color="light" style={{ flexShrink: 0 }}>{formatDate(post.created_at)}</Text>
               </button>
             ))}
-          </div>
+          </VStack>
         ) : (
           <EmptyState
             compact

@@ -12,31 +12,8 @@
   border-bottom: none;
 }
 
-.rowLabel {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
 .rowContent {
   min-width: 0;
-}
-
-/* Form */
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.formFooter {
-  display: flex;
-}
-
-/* Toggle list */
-.toggleList {
-  display: flex;
-  flex-direction: column;
 }
 
 .toggleRow {

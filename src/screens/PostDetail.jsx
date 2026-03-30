@@ -6,7 +6,7 @@
  */
 import { useParams, useNavigate } from "react-router";
 import { MapPin, Calendar, CheckCircle, SearchX } from "lucide-react";
-import { VStack, HStack, Text } from "@/components/primitives";
+import { VStack, HStack, Text, Container } from "@/components/primitives";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import EmptyState from "@/components/ui/EmptyState";
@@ -60,16 +60,16 @@ export default function PostDetail() {
   const isOwner = user?.id && post.user_id === user.id;
 
   return (
-    <>
+    <Container size="md" padding={0}>
       {post.image_url && (
-          <img
-            src={post.image_url}
-            alt={post.title}
-            className={styles.image}
-          />
-        )}
+        <img
+          src={post.image_url}
+          alt={post.title}
+          className={styles.image}
+        />
+      )}
 
-        <div className={styles.content}>
+      <VStack gap={4}>
           <VStack gap={2}>
             <Badge variant={statusInfo.variant}>
               {statusInfo.label}
@@ -119,7 +119,7 @@ export default function PostDetail() {
               <Text variant="body" weight="600">This pet has been reunited with their family!</Text>
             </HStack>
           )}
-        </div>
-    </>
+      </VStack>
+    </Container>
   );
 }

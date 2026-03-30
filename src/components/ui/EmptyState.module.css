@@ -13,12 +13,6 @@
   padding: 48px 0;
 }
 
-.iconWrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .icon {
   color: var(--brand);
 }

@@ -1,26 +1,17 @@
-.details {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
 .detail {
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
   font-size: var(--font-size-subheadline);
   color: var(--text-secondary);
+  text-decoration: none;
 }
 
-.detail a {
-  color: var(--text-secondary);
-  text-decoration: none;
+a.detail {
   transition: color var(--transition-fast);
 }
 
-.detail a:hover {
+a.detail:hover {
   color: var(--brand);
 }
 
@@ -35,7 +26,6 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-md);
-  margin-top: 24px;
 }
 
 @media (max-width: 640px) {

@@ -132,7 +132,7 @@ export default function SearchResults() {
           {postsLoading ? (
             <div className={styles.loading}><Spinner size="lg" /></div>
           ) : posts?.length > 0 ? (
-            <div className={styles.list}>
+            <VStack gap={2}>
               {posts.map((post) => (
                 <Card key={post.id} onClick={() => navigate(`/posts/${post.id}`)}>
                   <VStack gap={2}>
@@ -159,7 +159,7 @@ export default function SearchResults() {
                   </VStack>
                 </Card>
               ))}
-            </div>
+            </VStack>
           ) : (
             <EmptyState
               icon={FileSearch}

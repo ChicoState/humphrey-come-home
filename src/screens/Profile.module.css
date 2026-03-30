@@ -19,15 +19,6 @@
   font-weight: var(--font-bold);
 }
 
-/* Details */
-.details {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
 .detail {
   display: inline-flex;
   align-items: center;
@@ -42,13 +33,6 @@
   justify-content: center;
   padding: 64px 0;
   width: 100%;
-}
-
-/* Posts */
-.postsList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
 }
 
 .postRow {

@@ -12,7 +12,7 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import SuggestionList from "@/components/ui/SuggestionList";
 import usePlacesAutocomplete from "@/hooks/usePlacesAutocomplete";
-import { VStack, Text, Container } from "@/components/primitives";
+import { VStack, HStack, Text, Container } from "@/components/primitives";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile, useUpdateProfile } from "@/hooks/queries/useProfile";
 import styles from "./Settings.module.css";
@@ -62,12 +62,12 @@ export default function Settings() {
       <Container size="md">
       {/* Profile */}
       <section className={styles.row}>
-        <div className={styles.rowLabel}>
+        <VStack gap={1}>
           <Text variant="h3">Profile</Text>
           <Text variant="sm" color="muted">Your public display info.</Text>
-        </div>
+        </VStack>
         <div className={styles.rowContent}>
-          <form onSubmit={handleSaveProfile} className={styles.form}>
+          <VStack gap={4} as="form" onSubmit={handleSaveProfile} style={{ textAlign: 'left' }}>
             <Input
               label="Display Name"
               id="name"
@@ -97,7 +97,7 @@ export default function Settings() {
                 position="below"
               />
             </div>
-            <div className={styles.formFooter}>
+            <HStack>
               <Button
                 variant="primary"
                 size="sm"
@@ -108,20 +108,20 @@ export default function Settings() {
               >
                 {updateProfile.isSuccess && !hasChanges ? "Saved" : "Save"}
               </Button>
-            </div>
-          </form>
+            </HStack>
+          </VStack>
         </div>
       </section>
 
       {/* Notifications */}
       <section className={styles.row}>
-        <div className={styles.rowLabel}>
+        <VStack gap={1}>
           <div><Badge variant="warning">Coming soon</Badge></div>
           <Text variant="h3">Notifications</Text>
           <Text variant="sm" color="muted">Email alerts for nearby activity.</Text>
-        </div>
+        </VStack>
         <div className={styles.rowContent}>
-          <div className={styles.toggleList}>
+          <VStack>
             <label className={styles.toggleRow}>
               <div>
                 <Text variant="body" weight="500">Lost pet alerts</Text>
@@ -143,16 +143,16 @@ export default function Settings() {
               </div>
               <input type="checkbox" className={styles.toggle} disabled />
             </label>
-          </div>
+          </VStack>
         </div>
       </section>
 
       {/* Account */}
       <section className={styles.row}>
-        <div className={styles.rowLabel}>
+        <VStack gap={1}>
           <Text variant="h3">Account</Text>
           <Text variant="sm" color="muted">Sign out of your account.</Text>
-        </div>
+        </VStack>
         <div className={styles.rowContent}>
           <div>
             <Button variant="danger" size="sm" icon={LogOut} onClick={handleSignOut}>
