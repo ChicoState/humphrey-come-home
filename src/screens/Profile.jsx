@@ -5,6 +5,7 @@
  */
 import { useNavigate } from "react-router";
 import { FileText, MapPin, Calendar, Settings, Camera } from "lucide-react";
+import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import EmptyState from "@/components/ui/EmptyState";
 import Spinner from "@/components/ui/Spinner";
@@ -68,7 +69,7 @@ export default function Profile() {
       </VStack>
 
       {/* Posts */}
-      <Container size="md" style={{ paddingTop: 32 }}>
+      <Container size="md" style={{ paddingTop: 24 }}>
         <Divider label="Your Posts" />
 
         {postsLoading ? (
@@ -81,11 +82,11 @@ export default function Profile() {
                 className={styles.postRow}
                 onClick={() => navigate(`/posts/${post.id}`)}
               >
-                <span className={`${styles.badge} ${styles[`badge_${post.status}`]}`}>
+                <Badge variant={{ lost: 'error', found: 'warning', reunited: 'success' }[post.status]}>
                   {post.status}
-                </span>
-                <span className={styles.postTitle}>{post.title}</span>
-                <span className={styles.postDate}>{formatDate(post.created_at)}</span>
+                </Badge>
+                <Text variant="body" className={styles.postTitle}>{post.title}</Text>
+                <Text variant="xs" color="light" style={{ flexShrink: 0 }}>{formatDate(post.created_at)}</Text>
               </button>
             ))}
           </div>

@@ -17,6 +17,7 @@ const LostAnimal = lazy(() => import("./screens/LostAnimal"));
 const FoundAnimal = lazy(() => import("./screens/FoundAnimal"));
 const PostDetail = lazy(() => import("./screens/PostDetail"));
 const AnimalDetail = lazy(() => import("./screens/AnimalDetail"));
+const ShelterDetail = lazy(() => import("./screens/ShelterDetail"));
 const Profile = lazy(() => import("./screens/Profile"));
 const PrivacyPolicy = lazy(() => import("./screens/legal/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./screens/legal/TermsOfService"));
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="image-search" element={<ImageSearch />} />
           <Route path="posts/:id" element={<PostDetail />} />
           <Route path="animals/:id" element={<AnimalDetail />} />
+          <Route path="shelters/:id" element={<ShelterDetail />} />
           <Route element={<ProtectedRoute />}>
             <Route path="profile" element={<Profile />} />
             <Route path="settings" element={<Settings />} />

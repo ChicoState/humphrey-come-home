@@ -7,48 +7,48 @@
   align-items: center;
   justify-content: center;
   min-height: 180px;
-  border: 2px dashed var(--color-gray-300);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-gray-50);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  background-color: var(--bg-secondary);
   cursor: pointer;
 }
 
 .dropzoneActive {
-  border-color: var(--color-primary-400);
-  background-color: var(--color-primary-50);
+  border-color: var(--brand-focus);
+  background-color: var(--brand-bg);
 }
 
 .dropzoneContent {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-6);
+  gap: var(--space-sm);
+  padding: 1.5rem;
   text-align: center;
 }
 
 .dropzoneIcon {
-  color: var(--color-gray-400);
+  color: var(--text-light);
 }
 
 .dropzoneText {
-  font-size: var(--text-sm);
+  font-size: var(--font-size-subheadline);
   font-weight: var(--font-medium);
-  color: var(--color-gray-600);
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .dropzoneHint {
-  font-size: var(--text-xs);
-  color: var(--color-gray-400);
+  font-size: var(--font-size-footnote);
+  color: var(--text-light);
   margin: 0;
 }
 
 .previewContainer {
   position: relative;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius);
   overflow: hidden;
-  border: 1px solid var(--color-gray-200);
+  border: 1px solid var(--border);
 }
 
 .preview {
@@ -60,8 +60,8 @@
 
 .clearButton {
   position: absolute;
-  top: var(--space-2);
-  right: var(--space-2);
+  top: var(--space-sm);
+  right: var(--space-sm);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,7 +87,7 @@
 }
 
 .error {
-  font-size: var(--text-sm);
-  color: var(--color-error);
-  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-subheadline);
+  color: var(--status-error);
+  margin: var(--space-xs) 0 0;
 }

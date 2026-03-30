@@ -4,14 +4,15 @@
  * Each tab shows relevant results with links to detail pages.
  * Route: /search?address=...&lat=...&lng=...
  */
-import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router";
-import { MapPin, Phone, Calendar, Building2, PawPrint, FileSearch } from "lucide-react";
+import { MapPin, Calendar, Building2, PawPrint, FileSearch } from "lucide-react";
+import AnimalCard from "@/components/ui/AnimalCard";
 import Badge from "@/components/ui/Badge";
 import Card from "@/components/ui/Card";
 import EmptyState from "@/components/ui/EmptyState";
+import ShelterCard from "@/components/ui/ShelterCard";
 import Spinner from "@/components/ui/Spinner";
-import { VStack, Text, Container } from "@/components/primitives";
+import { VStack, HStack, Text, Container } from "@/components/primitives";
 import { useShelters } from "@/hooks/queries/useShelters";
 import { useAnimals } from "@/hooks/queries/useAnimals";
 import { usePosts } from "@/hooks/queries/usePosts";
@@ -25,9 +26,16 @@ const TABS = [
 ];
 
 export default function SearchResults() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("shelters");
+  const activeTab = searchParams.get("tab") || "shelters";
+  const setActiveTab = (tab) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set("tab", tab);
+      return next;
+    }, { replace: true });
+  };
 
   const address = searchParams.get("address") || "";
   const lat = searchParams.get("lat") ? Number(searchParams.get("lat")) : null;
@@ -62,7 +70,7 @@ export default function SearchResults() {
         )}
       </VStack>
 
-      <Container size="md">
+      <Container size="lg" padding={0}>
       {/* Tabs */}
       <div className={styles.tabs}>
         {TABS.map((tab) => (
@@ -82,24 +90,9 @@ export default function SearchResults() {
           {sheltersLoading ? (
             <div className={styles.loading}><Spinner size="lg" /></div>
           ) : shelters?.length > 0 ? (
-            <div className={styles.list}>
+            <div className={styles.shelterGrid}>
               {shelters.map((shelter) => (
-                <Card
-                  key={shelter.id}
-                  className={styles.shelterCard}
-                >
-                  <Text variant="h3">{shelter.name}</Text>
-                  {shelter.address && (
-                    <Text variant="sm" color="muted" as="p" className={styles.shelterDetail}>
-                      <MapPin size={14} /> {shelter.address}
-                    </Text>
-                  )}
-                  {shelter.phone && (
-                    <Text variant="sm" color="muted" as="p" className={styles.shelterDetail}>
-                      <Phone size={14} /> {shelter.phone}
-                    </Text>
-                  )}
-                </Card>
+                <ShelterCard key={shelter.id} shelter={shelter} />
               ))}
             </div>
           ) : (
@@ -120,28 +113,7 @@ export default function SearchResults() {
           ) : animals?.length > 0 ? (
             <div className={styles.animalGrid}>
               {animals.map((animal) => (
-                <Card
-                  key={animal.id}
-                  onClick={() => navigate(`/animals/${animal.id}`)}
-                  className={styles.animalCard}
-                >
-                  {animal.photo_url && (
-                    <img
-                      src={animal.photo_url}
-                      alt={animal.name}
-                      className={styles.animalPhoto}
-                    />
-                  )}
-                  <div className={styles.animalInfo}>
-                    <Text variant="h3">{animal.name}</Text>
-                    <Text variant="sm" color="muted">
-                      {[animal.species, animal.breed].filter(Boolean).join(" - ")}
-                    </Text>
-                    {animal.shelter_name && (
-                      <Text variant="xs" color="light">{animal.shelter_name}</Text>
-                    )}
-                  </div>
-                </Card>
+                <AnimalCard key={animal.id} animal={animal} showShelter />
               ))}
             </div>
           ) : (
@@ -162,37 +134,29 @@ export default function SearchResults() {
           ) : posts?.length > 0 ? (
             <div className={styles.list}>
               {posts.map((post) => (
-                <Card
-                  key={post.id}
-                  onClick={() => navigate(`/posts/${post.id}`)}
-                  className={styles.postCard}
-                >
-                  <div className={styles.postHeader}>
-                    <span
-                      className={`${styles.badge} ${
-                        post.status === "lost"
-                          ? styles.badgeLost
-                          : post.status === "found"
-                          ? styles.badgeFound
-                          : styles.badgeReunited
-                      }`}
-                    >
-                      {post.status}
-                    </span>
-                    <Text variant="h3">{post.title}</Text>
-                  </div>
-                  <div className={styles.postDetails}>
-                    {post.location_address && (
-                      <Text variant="sm" color="muted" as="span" className={styles.postDetail}>
-                        <MapPin size={14} /> {post.location_address}
-                      </Text>
-                    )}
-                    {post.created_at && (
-                      <Text variant="sm" color="muted" as="span" className={styles.postDetail}>
-                        <Calendar size={14} /> {formatDate(post.created_at)}
-                      </Text>
-                    )}
-                  </div>
+                <Card key={post.id} onClick={() => navigate(`/posts/${post.id}`)}>
+                  <VStack gap={2}>
+                    <HStack gap={2} align="center">
+                      <Badge variant={{ lost: 'error', found: 'warning', reunited: 'success' }[post.status]}>
+                        {post.status}
+                      </Badge>
+                      <Text variant="h3">{post.title}</Text>
+                    </HStack>
+                    <HStack gap={3} wrap>
+                      {post.location_address && (
+                        <HStack gap={1} align="center">
+                          <MapPin size={14} />
+                          <Text variant="sm" color="muted">{post.location_address}</Text>
+                        </HStack>
+                      )}
+                      {post.created_at && (
+                        <HStack gap={1} align="center">
+                          <Calendar size={14} />
+                          <Text variant="sm" color="muted">{formatDate(post.created_at)}</Text>
+                        </HStack>
+                      )}
+                    </HStack>
+                  </VStack>
                 </Card>
               ))}
             </div>

@@ -1,16 +1,16 @@
 .card,
 .link {
   background-color: white;
-  border-radius: 16px;
-  border: 1px solid var(--color-gray-100);
-  box-shadow: var(--shadow-sm);
-  padding: var(--space-4);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: var(--space-md);
+  transition: box-shadow var(--transition-fast);
 }
 
 .elevated,
 .link.elevated {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Clickable cards (onClick) */
@@ -20,13 +20,12 @@
 
 .clickable:hover,
 .link:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-hover);
 }
 
 .clickable:focus-visible,
 .link:focus-visible {
-  outline: 2px solid var(--color-primary-400);
+  outline: 2px solid var(--brand-focus);
   outline-offset: 2px;
 }
 
@@ -38,5 +37,5 @@
 }
 
 .link.elevated:hover {
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-hover);
 }

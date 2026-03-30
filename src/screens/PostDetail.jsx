@@ -5,10 +5,11 @@
  * Route: /posts/:id
  */
 import { useParams, useNavigate } from "react-router";
-import { MapPin, Calendar, ArrowLeft, CheckCircle, SearchX } from "lucide-react";
+import { MapPin, Calendar, CheckCircle, SearchX } from "lucide-react";
 import { VStack, HStack, Text } from "@/components/primitives";
-import EmptyState from "@/components/ui/EmptyState";
+import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import EmptyState from "@/components/ui/EmptyState";
 import Spinner from "@/components/ui/Spinner";
 import { useAuth } from "@/hooks/useAuth";
 import { usePost, useUpdatePost } from "@/hooks/queries/usePosts";
@@ -16,9 +17,9 @@ import formatDate from "@/lib/formatDate";
 import styles from "./PostDetail.module.css";
 
 const STATUS_CONFIG = {
-  lost: { label: "Lost", className: "statusLost" },
-  found: { label: "Found", className: "statusFound" },
-  reunited: { label: "Reunited", className: "statusReunited" },
+  lost: { label: "Lost", variant: "error" },
+  found: { label: "Found", variant: "warning" },
+  reunited: { label: "Reunited", variant: "success" },
 };
 
 export default function PostDetail() {
@@ -59,17 +60,8 @@ export default function PostDetail() {
   const isOwner = user?.id && post.user_id === user.id;
 
   return (
-    <div className={styles.page}>
-      <button
-        className={styles.backButton}
-        onClick={() => navigate(-1)}
-        type="button"
-      >
-        <ArrowLeft size={18} /> Back
-      </button>
-
-      <article className={styles.article}>
-        {post.image_url && (
+    <>
+      {post.image_url && (
           <img
             src={post.image_url}
             alt={post.title}
@@ -79,13 +71,13 @@ export default function PostDetail() {
 
         <div className={styles.content}>
           <VStack gap={2}>
-            <span className={`${styles.badge} ${styles[statusInfo.className]}`}>
+            <Badge variant={statusInfo.variant}>
               {statusInfo.label}
-            </span>
+            </Badge>
             <Text variant="h1">{post.title}</Text>
           </VStack>
 
-          <HStack gap={4} wrap className={styles.meta}>
+          <HStack gap={4} wrap style={{ color: 'var(--text-secondary)' }}>
             {post.location_address && (
               <HStack gap={1} align="center">
                 <MapPin size={16} />
@@ -128,7 +120,6 @@ export default function PostDetail() {
             </HStack>
           )}
         </div>
-      </article>
-    </div>
+    </>
   );
 }

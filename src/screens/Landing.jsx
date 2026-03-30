@@ -1,9 +1,3 @@
-/**
- * Landing — homepage / marketing screen.
- * Hero with location search, CTAs for "Report Lost" and "Report Found",
- * a polaroid photo gallery, and a bottom call-to-action section.
- * No props — standalone route at "/".
- */
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Search, PawPrint, Heart } from 'lucide-react';
@@ -42,7 +36,6 @@ export default function Landing() {
 
   return (
     <VStack align="center" style={{ textAlign: 'center' }}>
-      {/* ── Hero ────────────────────────────────────────── */}
       <VStack gap={4} align="center" paddingX={6} style={{ marginBottom: 24 }}>
         <Image
           src="/hero.jpg"
@@ -58,7 +51,6 @@ export default function Landing() {
         </Text>
       </VStack>
 
-      {/* ── Search ──────────────────────────────────────── */}
       <Container size="md" className={styles.stickySearch}>
         <LocationInput
           value={location}
@@ -70,7 +62,6 @@ export default function Landing() {
         />
       </Container>
 
-      {/* ── Recently searched areas ─────────────────────── */}
       <div style={{ width: '100%', maxWidth: 700, margin: '16px auto 0' }}>
         <ScrollRail gap={3} animated>
           {recentAreas.map((city) => (
@@ -88,7 +79,6 @@ export default function Landing() {
         </ScrollRail>
       </div>
 
-      {/* ── CTA ─────────────────────────────────────────── */}
       <Container size="md" style={{ paddingTop: 32, paddingBottom: 16 }}>
         <Divider label="or" />
         <HStack gap={3} justify="center" wrap style={{ marginTop: 24 }}>
@@ -101,7 +91,6 @@ export default function Landing() {
         </HStack>
       </Container>
 
-      {/* ── Polaroid gallery ─────────────────────────────── */}
       <div style={{ width: '100%', marginTop: 16 }}>
         <PolaroidRail reverse photos={[
           { id: 'demo-1', src: '/gallery/1.webp', label: 'Buddy' },
@@ -117,17 +106,15 @@ export default function Landing() {
         ]} />
       </div>
 
-      {/* ── WIP section placeholder ──────────────────────── */}
       <Container size="md" style={{ padding: '48px 16px', textAlign: 'center' }}>
         <DashedBox dash={14} gap={8} strokeWidth={3} radius={16} style={{ padding: '40px 24px' }}>
-          <Text variant="h2" color="muted" style={{ fontSize: '1.1rem' }}>Future Content Area</Text>
-          <Text variant="body" color="light" style={{ maxWidth: '48ch', margin: '8px auto 0', lineHeight: 1.5 }}>
+          <Text variant="h3" color="muted">Future Content Area</Text>
+          <Text variant="body" color="light" style={{ maxWidth: '48ch', margin: '8px auto 0' }}>
             Ideas: success stories / reunited pets, how-it-works steps, shelter partner logos, community stats (pets reunited, shelters connected), or a live feed of recent reports.
           </Text>
         </DashedBox>
       </Container>
 
-      {/* ── Bottom CTA card ───────────────────────────────── */}
       <Container size="md">
       <div className={styles.ctaPetsWrap}>
         <Image
@@ -138,10 +125,10 @@ export default function Landing() {
       </div>
       <div className={styles.ctaCard}>
         <Heart size={32} strokeWidth={2.2} className={styles.ctaIcon} />
-        <Text variant="h2" style={{ fontSize: '1.35rem', color: 'var(--color-primary-900)' }}>
+        <Text variant="subtitle" color="primary">
           Every minute counts
         </Text>
-        <Text variant="body" style={{ maxWidth: '38ch', lineHeight: 1.5, color: 'var(--color-primary-800)' }}>
+        <Text variant="body" color="primary" style={{ maxWidth: '38ch' }}>
           The sooner a lost pet is reported, the higher the chance of a reunion. Help spread the word in your community.
         </Text>
         <HStack gap={3} wrap justify="center" style={{ marginTop: 4 }}>

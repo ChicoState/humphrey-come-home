@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   border-radius: var(--radius-full);
-  font-weight: 600;
+  font-weight: var(--font-semibold);
   line-height: 1;
   white-space: nowrap;
 }
@@ -10,36 +10,36 @@
 /* Sizes */
 .sm {
   padding: 3px 10px;
-  font-size: 0.7rem;
+  font-size: var(--font-size-caption);
 }
 
 .md {
   padding: 4px 12px;
-  font-size: 0.8rem;
+  font-size: var(--font-size-subheadline);
 }
 
 /* Variants */
 .default {
-  background-color: var(--color-gray-100);
-  color: var(--color-gray-600);
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
 }
 
 .success {
-  background-color: var(--color-success-light);
-  color: #166534;
+  background-color: var(--status-success-bg);
+  color: var(--status-success);
 }
 
 .warning {
-  background-color: var(--color-warning-light);
-  color: #92400e;
+  background-color: var(--status-warning-bg);
+  color: var(--status-warning);
 }
 
 .error {
-  background-color: var(--color-error-light);
-  color: var(--color-error);
+  background-color: var(--status-error-bg);
+  color: var(--status-error);
 }
 
 .info {
-  background-color: var(--color-info-light);
-  color: #1e40af;
+  background-color: var(--status-info-bg);
+  color: var(--status-info);
 }

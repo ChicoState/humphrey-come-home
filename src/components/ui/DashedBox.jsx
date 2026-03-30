@@ -16,7 +16,7 @@ export default function DashedBox({
   dash = 10,
   gap = 8,
   strokeWidth = 3,
-  color = 'var(--color-gray-300)',
+  color = 'var(--border)',
   radius = 16,
   children,
   className,

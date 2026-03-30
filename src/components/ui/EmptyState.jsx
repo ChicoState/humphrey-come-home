@@ -22,8 +22,8 @@ export default function EmptyState({ icon: Icon, title, subtitle, button, compac
       )}
       {badge && <Badge variant="warning">{badge}</Badge>}
       <VStack gap={2} align="center" style={{ textAlign: 'center' }}>
-        {title && <Text variant="h2" style={{ fontSize: '1.35rem' }}>{title}</Text>}
-        {subtitle && <Text variant="body" color="muted" style={{ maxWidth: '32ch', lineHeight: 1.5 }}>{subtitle}</Text>}
+        {title && <Text variant="subtitle">{title}</Text>}
+        {subtitle && <Text variant="body" color="muted" style={{ maxWidth: '32ch' }}>{subtitle}</Text>}
       </VStack>
       {button && (
         <Button variant="primary" onClick={button.onPress} style={{ marginTop: 8 }}>

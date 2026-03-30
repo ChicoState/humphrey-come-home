@@ -53,43 +53,43 @@
 .item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-sm);
   width: 100%;
   padding: 10px 12px;
   border: none;
   border-radius: 10px;
   background: none;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--color-gray-700);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
   cursor: pointer;
   transition: background-color 100ms ease;
   text-align: left;
 }
 
 .item:hover {
-  background: var(--color-gray-50);
+  background: var(--bg-secondary);
 }
 
 .danger {
-  color: var(--color-error);
+  color: var(--status-error);
 }
 
 .danger:hover {
-  background: var(--color-error-light);
+  background: var(--status-error-bg);
 }
 
 .itemIcon {
   flex-shrink: 0;
-  color: var(--color-gray-400);
+  color: var(--text-light);
 }
 
 .danger .itemIcon {
-  color: var(--color-error);
+  color: var(--status-error);
 }
 
 .separator {
   height: 1px;
-  background: var(--color-gray-100);
-  margin: 4px 0;
+  background: var(--bg-tertiary);
+  margin: var(--space-xs) 0;
 }

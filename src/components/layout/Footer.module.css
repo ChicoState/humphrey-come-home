@@ -1,22 +1,22 @@
 .footer {
-  padding: var(--space-12) 0 var(--space-8);
+  padding: 3rem 0 var(--space-lg);
 }
 
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 var(--space-4);
+  padding: 0 var(--space-md);
 }
 
 .grid {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .brandCol {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-sm);
   flex: 2;
 }
 
@@ -24,28 +24,28 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-sm);
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-sm);
   text-decoration: none;
-  color: var(--color-primary-600);
+  color: var(--brand);
   font-weight: var(--font-bold);
-  font-size: var(--text-lg);
+  font-size: var(--font-size-headline);
 }
 
 .link {
-  font-size: var(--text-sm);
-  color: var(--color-gray-500);
+  font-size: var(--font-size-subheadline);
+  color: var(--text-secondary);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .link:hover {
-  color: var(--color-tertiary-600);
+  color: var(--brand);
 }
 
 /* Subfooter */
@@ -53,40 +53,40 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: var(--space-8);
-  padding-top: var(--space-6);
+  margin-top: var(--space-lg);
+  padding-top: 1.5rem;
 }
 
 .madeIn {
-  font-size: var(--text-sm);
-  color: var(--color-gray-400);
+  font-size: var(--font-size-subheadline);
+  color: var(--text-light);
 }
 
 .legal {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-md);
 }
 
 .legalLink {
-  font-size: var(--text-sm);
-  color: var(--color-gray-400);
+  font-size: var(--font-size-subheadline);
+  color: var(--text-light);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .legalLink:hover {
-  color: var(--color-tertiary-600);
+  color: var(--brand);
 }
 
 @media (max-width: 640px) {
   .grid {
     flex-direction: column;
-    gap: var(--space-6);
+    gap: var(--space-md);
   }
 
   .bottom {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-3);
+    gap: var(--space-sm);
   }
 }

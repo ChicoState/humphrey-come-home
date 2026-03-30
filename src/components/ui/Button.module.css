@@ -15,8 +15,8 @@
   border: none;
   appearance: none;
   border-radius: var(--radius-full);
-  background-color: var(--color-gray-100);
-  color: var(--color-gray-800);
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
   padding: var(--btn-pad-y) var(--btn-pad-label-x);
   min-width: 46px;
   display: inline-flex;
@@ -32,7 +32,7 @@
 }
 
 .button:hover:not(:disabled) {
-  background-color: var(--color-gray-200);
+  background-color: var(--border);
 }
 
 .button:disabled {
@@ -43,26 +43,11 @@
 /* ── Sizes ────────────────────────────────────────────── */
 .sm {
   --btn-pad-y: 9px;
-  --btn-icon-size: 19px;
   --btn-gap: 7px;
-  --btn-font-size: 1.0625rem;
   --btn-line-height: 21px;
-  --btn-font-weight: 600;
   --btn-pad-icon-left: 13px;
   --btn-pad-icon-right: 19px;
   --btn-pad-label-x: 17px;
-}
-
-.md {
-  --btn-pad-y: 10px;
-  --btn-icon-size: 19px;
-  --btn-gap: 8px;
-  --btn-font-size: 1.0625rem;
-  --btn-line-height: 22px;
-  --btn-font-weight: 600;
-  --btn-pad-icon-left: 14px;
-  --btn-pad-icon-right: 20px;
-  --btn-pad-label-x: 18px;
 }
 
 .lg {
@@ -92,46 +77,46 @@
 
 /* ── Variants ─────────────────────────────────────────── */
 .primary {
-  background-color: var(--color-primary-600);
+  background-color: var(--brand);
   color: white;
 }
 .primary:hover:not(:disabled) {
-  background-color: var(--color-primary-700);
+  background-color: var(--brand-hover);
 }
 
 .secondary {
-  background-color: var(--color-gray-100);
-  color: var(--color-gray-700);
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
 }
 .secondary:hover:not(:disabled) {
-  background-color: var(--color-gray-200);
+  background-color: var(--border);
 }
 
 .outline {
   background-color: white;
-  color: var(--color-gray-600);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), inset 0 0 0 1px var(--color-gray-200);
+  color: var(--text-secondary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), inset 0 0 0 1px var(--border);
 }
 .outline:hover:not(:disabled) {
-  background-color: var(--color-gray-50);
-  color: var(--color-gray-800);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 .ghost {
   background-color: transparent;
-  color: var(--color-gray-600);
+  color: var(--text-secondary);
 }
 .ghost:hover:not(:disabled) {
-  background-color: var(--color-gray-100);
-  color: var(--color-gray-800);
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
 }
 
 .danger {
-  background-color: var(--color-error);
+  background-color: var(--status-error);
   color: white;
 }
 .danger:hover:not(:disabled) {
-  background-color: #b91c1c;
+  background-color: var(--status-error);
 }
 
 /* ── Block ────────────────────────────────────────────── */

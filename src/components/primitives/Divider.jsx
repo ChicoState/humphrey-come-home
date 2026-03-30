@@ -10,14 +10,14 @@ import Text from './Text';
 const line = {
   flex: 1,
   height: '1px',
-  background: 'var(--color-gray-200)',
+  background: 'var(--border)',
 };
 
 export default function Divider({ label, style, className, ...rest }) {
   if (!label) {
     return (
       <hr
-        style={{ border: 'none', height: '1px', background: 'var(--color-gray-200)', margin: 0, ...style }}
+        style={{ border: 'none', height: '1px', background: 'var(--border)', margin: 0, ...style }}
         className={className}
         {...rest}
       />
