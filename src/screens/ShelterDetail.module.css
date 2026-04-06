@@ -1,0 +1,33 @@
+.detail {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-subheadline);
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+a.detail {
+  transition: color var(--transition-fast);
+}
+
+a.detail:hover {
+  color: var(--brand);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 64px 0;
+  width: 100%;
+}
+
+.animalGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+@media (max-width: 640px) {
+  .animalGrid { grid-template-columns: repeat(2, 1fr); gap: var(--space-sm); }
+}

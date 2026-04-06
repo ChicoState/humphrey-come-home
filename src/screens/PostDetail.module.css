@@ -1,0 +1,17 @@
+.image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.ownerActions {
+  padding-top: var(--space-sm);
+}
+
+.reunitedBanner {
+  padding: var(--space-md);
+  background: var(--status-success-bg);
+  color: var(--status-success);
+  border-radius: var(--radius);
+}
