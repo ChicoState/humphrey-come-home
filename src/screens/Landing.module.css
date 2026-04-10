@@ -1,0 +1,115 @@
+.stickySearch {
+  position: sticky;
+  top: var(--header-height);
+  z-index: 50;
+}
+
+.liveSection,
+.feedSection {
+  padding-top: 48px;
+}
+
+.sectionHeader,
+.feedHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.howItWorksGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.infoCard,
+.emptyCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: white;
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+
+.infoIcon {
+  color: var(--brand);
+}
+
+.feedGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.feedColumn {
+  min-width: 0;
+}
+
+.loadingBlock {
+  display: flex;
+  justify-content: center;
+  padding: 64px 0;
+}
+
+.animalGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.ctaPetsWrap {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.ctaPets {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: -10%;
+  position: relative;
+  z-index: 1;
+}
+
+.ctaCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  text-align: center;
+  padding: 40px 32px;
+  border-radius: 24px;
+  background: var(--brand-bg);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.ctaIcon {
+  color: var(--brand);
+}
+
+@media (max-width: 900px) {
+  .howItWorksGrid,
+  .feedGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .sectionHeader,
+  .feedHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .animalGrid {
+    grid-template-columns: 1fr;
+  }
+}

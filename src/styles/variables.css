@@ -1,0 +1,54 @@
+:root {
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-light: #94a3b8;
+
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+
+  --border: #e2e8f0;
+
+  --brand: #16a34a;
+  --brand-hover: #15803d;
+  --brand-bg: #dcfce7;
+  --brand-focus: #4ade80;
+
+  --status-success: #16a34a;
+  --status-success-bg: #dcfce7;
+  --status-error: #dc2626;
+  --status-error-bg: #fee2e2;
+  --status-warning: #92400e;
+  --status-warning-bg: #fef3c7;
+  --status-info: #1e40af;
+  --status-info-bg: #dbeafe;
+
+  --font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --font-size-caption: 0.6875rem;
+  --font-size-footnote: 0.75rem;
+  --font-size-subheadline: 0.875rem;
+  --font-size-body: 1rem;
+  --font-size-headline: 1.125rem;
+  --font-size-title: clamp(1.25rem, 2.5vw, 1.5rem);
+  --font-size-largeTitle: clamp(2.25rem, 5vw, 3.25rem);
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+
+  --radius: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-full: 9999px;
+
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  --transition-fast: 150ms ease;
+
+  --max-width: 800px;
+  --header-height: 4rem;
+}

@@ -1,0 +1,67 @@
+.photoHero {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
+  width: 100%;
+}
+
+.image {
+  width: 280px;
+  height: 340px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-hover);
+}
+
+.statRow {
+  display: flex;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 16px 12px;
+}
+
+.stat + .stat {
+  border-left: 1px solid var(--border);
+}
+
+.shelterCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 40px 32px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  width: 100%;
+}
+
+.shelterIcon {
+  color: var(--brand);
+}
+
+.shelterDetail {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-size-subheadline);
+  color: var(--text-secondary);
+}
+
+@media (max-width: 480px) {
+  .image {
+    width: 220px;
+    height: 280px;
+  }
+}

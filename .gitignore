@@ -1,29 +1,15 @@
-# Had a chatbot make this simple .gitignore list.
-# Bryce Emery
-# Python bytecode
-__pycache__/
-*.py[cod]
+node_modules
+dist
+.env
+.env.local
+*.local
 
-# Virtual environments
-venv/
-env/
-.env/
-
-# Django stuff
-*.log
-*.pot
-*.pyc
-*.sqlite3
-media/
-staticfiles/
-
-# PostGIS stuff
-postgis_data/
-
-# IDE/editor stuff
+# IDE
 .vscode/
 .idea/
 *.swp
+*.swo
 
-# Docker
-*.env
+# OS
+.DS_Store
+Thumbs.db
