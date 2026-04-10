@@ -120,18 +120,14 @@ export default function Landing() {
       </Container>
 
       <div style={{ width: "100%", marginTop: 16 }}>
-        <PolaroidRail reverse photos={[
-          { id: "demo-1", src: "/gallery/1.webp", label: "Buddy" },
-          { id: "demo-2", src: "/gallery/2.webp", label: "Whiskers" },
-          { id: "demo-3", src: "/gallery/3.webp", label: "Luna" },
-          { id: "demo-4", src: "/gallery/4.webp", label: "Max" },
-          { id: "demo-5", src: "/gallery/5.webp", label: "Bella" },
-          { id: "demo-6", src: "/gallery/6.webp", label: "Charlie" },
-          { id: "demo-7", src: "/gallery/7.webp", label: "Daisy" },
-          { id: "demo-8", src: "/gallery/8.webp", label: "Rocky" },
-          { id: "demo-9", src: "/gallery/9.webp", label: "Milo" },
-          { id: "demo-10", src: "/gallery/10.webp", label: "Cleo" },
-        ]} />
+        <PolaroidRail
+          reverse
+          photos={animals.slice(0, 10).map((animal) => ({
+            id: animal.id,
+            src: animal.photo_url,
+            label: animal.name,
+          }))}
+        />
       </div>
 
       <Container size="lg" className={styles.liveSection}>
