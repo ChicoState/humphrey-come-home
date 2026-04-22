@@ -17,6 +17,7 @@ import { useCreatePost } from "@/hooks/queries/usePosts";
 import { buildReportDescription, buildReportTitle } from "@/lib/reportDescription";
 import { uploadPublicImage } from "@/lib/storage";
 import styles from "./ReportPetForm.module.css";
+import { supabase } from "@/lib/supabase";
 
 const SPECIES_OPTIONS = [
   { value: "", label: "Select species" },
@@ -119,7 +120,7 @@ function isValidEmail(value) {
 
 export default function ReportPetForm({ mode = "lost" }) {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const createPost = useCreatePost();
   const copy = MODE_COPY[mode] || MODE_COPY.lost;
   const draftKey = useMemo(() => getDraftKey(mode), [mode]);
@@ -129,6 +130,7 @@ export default function ReportPetForm({ mode = "lost" }) {
   const [fieldErrors, setFieldErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
   const [hydrated, setHydrated] = useState(false);
+  
 
   useEffect(() => {
     const nextForm = safeParseDraft(
@@ -197,71 +199,81 @@ export default function ReportPetForm({ mode = "lost" }) {
   }
 
   async function handleSubmit(e) {
-    e.preventDefault();
-    setSubmitError("");
+  e.preventDefault();
+  setSubmitError("");
 
-    if (!validate()) return;
+  if (!validate()) return;
+  if (loading) return;
 
-    if (!user) {
-      window.localStorage.setItem(draftKey, JSON.stringify(form));
-      navigate(`/login?next=/${mode}`);
-      return;
+  const { data: authData, error: authError } = await supabase.auth.getUser();
+  const currentUser = authData?.user ?? null;
+
+  if (authError || !currentUser) {
+    window.localStorage.setItem(draftKey, JSON.stringify(form));
+    navigate(`/login?next=/${mode}`);
+    return;
+  }
+
+  try {
+    let imageUrl = "";
+    if (imageFile) {
+      const upload = await uploadPublicImage({
+        bucket: "posts",
+        file: imageFile,
+        userId: currentUser.id,
+      });
+      imageUrl = upload?.publicUrl || "";
     }
 
-    try {
-      let imageUrl = "";
-      if (imageFile) {
-        const upload = await uploadPublicImage({
-          bucket: "posts",
-          file: imageFile,
-          userId: user.id,
-        });
-        imageUrl = upload?.publicUrl || "";
-      }
+    const title = buildReportTitle({
+      mode,
+      petName: form.petName,
+      species: form.species,
+      breed: form.breed,
+      color: form.color,
+    });
 
-      const title = buildReportTitle({
-        mode,
-        petName: form.petName,
+    const description = buildReportDescription({
+      notes: form.notes,
+      meta: {
         species: form.species,
         breed: form.breed,
+        age: form.age,
+        gender: form.gender,
+        size: form.size,
         color: form.color,
-      });
+        microchip: form.microchip,
+        event_at: form.eventAt,
+        contact_name: form.contactName,
+        contact_phone: form.contactPhone,
+        contact_email: form.contactEmail || currentUser.email,
+      },
+    });
 
-      const description = buildReportDescription({
-        notes: form.notes,
-        meta: {
-          species: form.species,
-          breed: form.breed,
-          age: form.age,
-          gender: form.gender,
-          size: form.size,
-          color: form.color,
-          microchip: form.microchip,
-          event_at: form.eventAt,
-          contact_name: form.contactName,
-          contact_phone: form.contactPhone,
-          contact_email: form.contactEmail || user.email,
-        },
-      });
+    const payload = {
+      user_id: currentUser.id,
+      title,
+      description,
+      status: mode,
+      latitude: form.location.lat,
+      longitude: form.location.lng,
+      location_address: form.location.address,
+      ...(imageUrl ? { image_url: imageUrl } : {}),
+    };
 
-      const created = await createPost.mutateAsync({
-        user_id: user.id,
-        title,
-        description,
-        status: mode,
-        latitude: form.location.lat,
-        longitude: form.location.lng,
-        location_address: form.location.address,
-        ...(imageUrl ? { image_url: imageUrl } : {}),
-      });
+    console.log("creating post as user:", currentUser.id);
+    console.log("payload:", payload);
 
-      window.localStorage.removeItem(draftKey);
-      setImageFile(null);
-      navigate(`/posts/${created.id}`);
-    } catch (error) {
-      setSubmitError(error?.message || "We couldn't publish the report right now. Please try again.");
-    }
+    const created = await createPost.mutateAsync(payload);
+
+    window.localStorage.removeItem(draftKey);
+    setImageFile(null);
+    navigate(`/posts/${created.id}`);
+  } catch (error) {
+    console.error("create post failed:", error);
+    setSubmitError(error?.message || "We couldn't publish the report right now. Please try again.");
   }
+}
 
   return (
     <VStack align="center" style={{ textAlign: "center" }}>
@@ -499,13 +511,14 @@ export default function ReportPetForm({ mode = "lost" }) {
               Clear Draft
             </Button>
             <HStack gap={3} wrap>
-              <Button variant="outline" onClick={() => navigate("/")}>Cancel</Button>
               <Button
                 variant="primary"
+                size="lg"
                 type="submit"
                 loading={createPost.isPending}
+                disabled={loading || createPost.isPending}
               >
-                {user ? copy.submitLabel : "Save Draft & Sign In"}
+                {copy.submitLabel}
               </Button>
             </HStack>
           </HStack>
