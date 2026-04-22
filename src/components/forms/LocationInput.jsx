@@ -62,16 +62,20 @@ export default function LocationInput({
     setActiveIndex(-1);
   }, [suggestions]);
 
-  const handleInputChange = (e) => {
-    const val = e.target.value;
-    setInputValue(val);
-    if (places.ready) {
-      places.fetchSuggestions(val);
-    }
-    if (!val.trim()) {
-      onChange?.({ address: "", lat: null, lng: null });
-    }
-  };
+const handleInputChange = (e) => {
+  const val = e.target.value;
+  setInputValue(val);
+
+  onChange?.({
+    address: val,
+    lat: null,
+    lng: null,
+  });
+
+  if (places.ready) {
+    places.fetchSuggestions(val);
+  }
+};
 
   const selectSuggestion = useCallback(async (prediction) => {
     setShowSuggestions(false);
@@ -119,7 +123,7 @@ export default function LocationInput({
     );
   };
 
-  const canSubmit = value?.lat != null && value?.lng != null;
+ const canSubmit = Boolean(inputValue.trim());
 
   return (
     <div className={styles.wrapper} ref={wrapperRef}>

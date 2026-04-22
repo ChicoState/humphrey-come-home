@@ -47,9 +47,8 @@ const DISTANCE_OPTIONS = [
 const ANIMAL_STATUS_OPTIONS = [
   { value: "available", label: "Available" },
   { value: "any", label: "Any status" },
-  { value: "hold", label: "On hold" },
-  { value: "adopted", label: "Adopted" },
   { value: "found", label: "Found" },
+  { value: "reunited", label: "Reunited" },
 ];
 
 const POST_STATUS_OPTIONS = [
@@ -74,7 +73,10 @@ export default function SearchResults() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const activeTab = searchParams.get("tab") || "shelters";
+  const rawTab = searchParams.get("tab");
+  const activeTab = ["shelters", "animals", "posts"].includes(rawTab)
+  ? rawTab
+  : "shelters";
   const address = searchParams.get("address") || "";
   const lat = searchParams.get("lat") ? Number(searchParams.get("lat")) : null;
   const lng = searchParams.get("lng") ? Number(searchParams.get("lng")) : null;
@@ -119,32 +121,38 @@ export default function SearchResults() {
 
   const maxDistance = Number(distance);
 
-  const filteredShelters = useMemo(() => {
-    return shelters
-      .map((shelter) => {
-        const distanceMiles = hasCoordinates
-          ? haversineMiles(lat, lng, shelter.latitude, shelter.longitude)
-          : null;
-        return {
-          ...shelter,
-          distanceMiles,
-          distanceLabel: formatDistance(distanceMiles),
-        };
-      })
-      .filter((shelter) => {
-        if (hasCoordinates && shelter.distanceMiles == null) return false;
-        if (hasCoordinates && shelter.distanceMiles > maxDistance) return false;
+ const filteredShelters = useMemo(() => {
+  return shelters
+    .map((shelter) => {
+      const distanceMiles = hasCoordinates
+        ? haversineMiles(lat, lng, shelter.latitude, shelter.longitude)
+        : null;
+
+      return {
+        ...shelter,
+        distanceMiles,
+        distanceLabel: formatDistance(distanceMiles),
+      };
+    })
+    .filter((shelter) => {
+      if (hasCoordinates && shelter.distanceMiles == null) return false;
+      if (hasCoordinates && shelter.distanceMiles > maxDistance) return false;
+
+      if (query.trim()) {
         return matchesQuery([shelter.name, shelter.address, shelter.phone], query);
-      })
-      .sort((a, b) => {
-        if (a.distanceMiles != null || b.distanceMiles != null) {
-          const aDistance = a.distanceMiles ?? Number.POSITIVE_INFINITY;
-          const bDistance = b.distanceMiles ?? Number.POSITIVE_INFINITY;
-          if (aDistance !== bDistance) return aDistance - bDistance;
-        }
-        return String(a.name || "").localeCompare(String(b.name || ""));
-      });
-  }, [shelters, hasCoordinates, lat, lng, maxDistance, query]);
+      }
+
+      return true;
+    })
+    .sort((a, b) => {
+      if (a.distanceMiles != null || b.distanceMiles != null) {
+        const aDistance = a.distanceMiles ?? Number.POSITIVE_INFINITY;
+        const bDistance = b.distanceMiles ?? Number.POSITIVE_INFINITY;
+        if (aDistance !== bDistance) return aDistance - bDistance;
+      }
+      return String(a.name || "").localeCompare(String(b.name || ""));
+    });
+}, [shelters, hasCoordinates, lat, lng, maxDistance, query]);
 
   const filteredAnimals = useMemo(() => {
     return animals
@@ -203,11 +211,12 @@ export default function SearchResults() {
           [
             post.title,
             post.cleanedDescription,
-            post.location_address,
             post.status,
             post.reportMeta?.species,
             post.reportMeta?.breed,
             post.reportMeta?.color,
+            post.reportMeta?.lastSeenAddress,
+            post.reportMeta?.city,
           ],
           query,
         );

@@ -50,7 +50,7 @@ export default function usePlacesAutocomplete({ debounce = 250 } = {}) {
     const text = prediction.text?.toString() || "";
     setSuggestions([]);
     try {
-      const place = new places.Place({ id: prediction.placeId });
+      const place = prediction.toPlace();
       await place.fetchFields({ fields: ["location", "formattedAddress"] });
       sessionTokenRef.current = new places.AutocompleteSessionToken();
       return {
