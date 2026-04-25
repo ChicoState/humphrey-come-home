@@ -2,6 +2,8 @@
 
 A lost pet reunion web app that helps families find missing pets by searching nearby shelters, reporting found animals, and connecting pet owners in their community.
 
+Live at [humphrey-come-home.netlify.app](https://humphrey-come-home.netlify.app/).
+
 ## Tech Stack
 
 [React 19](https://react.dev), [Vite 6](https://vite.dev), [React Router 7](https://reactrouter.com), [TanStack Query 5](https://tanstack.com/query), [Supabase](https://supabase.com)
@@ -11,8 +13,6 @@ A lost pet reunion web app that helps families find missing pets by searching ne
 [Lucide React](https://lucide.dev), [@vis.gl/react-google-maps](https://visgl.github.io/react-google-maps)
 
 ## Setup
-
-DM me (@Jaden Watson) on Slack for API keys and credentials.
 
 ### Prerequisites
 
@@ -39,6 +39,8 @@ VITE_GOOGLE_MAPS_API_KEY=your-google-maps-api-key
 ```
 
 All variables are `VITE_`-prefixed so Vite exposes them to the client. Don't put secret keys here.
+
+The Google Maps key is locked to specific referrers. If your dev port isn't already on the list, add it in [Google Cloud Console](https://console.cloud.google.com/apis/credentials) — e.g. `http://localhost:5173/*`. Wildcard ports aren't accepted.
 
 ## Documentation
 
