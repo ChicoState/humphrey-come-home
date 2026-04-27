@@ -9,7 +9,6 @@ dist
 .idea/
 *.swp
 *.swo
-.vs/
 
 # OS
 .DS_Store

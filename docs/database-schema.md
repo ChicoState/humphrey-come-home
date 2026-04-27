@@ -25,8 +25,9 @@ User-submitted lost/found pet reports.
 | `id` | bigint (PK) | Auto-increment |
 | `user_id` | uuid (FK) | References `auth.users(id)`, cascade delete |
 | `title` | text | Required |
-| `description` | text | |
+| `description` | text | Freeform notes. The current app may also prepend temporary structured report metadata here until a dedicated migration exists. |
 | `status` | text | `lost`, `found`, or `reunited` |
+| `location_address` | text | Human-readable address used throughout the search and detail screens |
 | `latitude` | double precision | |
 | `longitude` | double precision | |
 | `image_url` | text | URL to `posts` storage bucket |
@@ -57,15 +58,15 @@ Individual animals at shelters, populated by scrapers.
 | `id` | bigint (PK) | Auto-increment |
 | `shelter_id` | bigint (FK) | References `shelters(id)`, cascade delete |
 | `name` | text | |
-| `species` | text | e.g. dog, cat |
+| `species` | text | e.g. `dog`, `cat` |
 | `breed` | text | |
-| `age` | text | e.g. "2 years", "puppy" |
+| `age` | text | e.g. `2 years`, `puppy` |
 | `gender` | text | |
-| `size` | text | small, medium, large |
+| `size` | text | `small`, `medium`, `large` |
 | `color` | text | |
 | `description` | text | |
 | `photo_url` | text | |
-| `status` | text | Default `available`. Values: available, adopted, found, hold |
+| `status` | text | Default `available`. Values: `available`, `adopted`, `found`, `hold` |
 | `source_platform` | text | |
 | `external_id` | text | |
 | `source_url` | text | |

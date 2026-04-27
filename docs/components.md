@@ -8,6 +8,7 @@ Quick reference for the shared component library. Each component has a header co
 |---|---|
 | **Button** | Primary action element. Variants: primary, secondary, ghost, danger, outline. Supports loading state and icons. |
 | **Input** | Text input or textarea with label and error display. |
+| **Select** | Styled native `<select>` field with label and error state. Useful for filters and forms. |
 | **Card** | Clickable surface. Can render as a `<div>` or React Router `<Link>`. |
 | **Badge** | Small colored label for status (success, warning, error, info). |
 | **Spinner** | Loading indicator (sm, md, lg). |
@@ -17,8 +18,9 @@ Quick reference for the shared component library. Each component has a header co
 | **DashedBox** | SVG dashed-border container. |
 | **PolaroidRail** | Infinite-scroll marquee of polaroid-style photo cards. |
 | **SuggestionList** | Dropdown list for autocomplete suggestions. Used by LocationInput. |
-| **AnimalCard** | Clickable card showing an animal's photo, name, and breed. Links to `/animals/:id`. |
-| **ShelterCard** | Clickable card showing a shelter's name, address, and phone. Links to `/shelters/:id`. |
+| **AnimalCard** | Clickable card showing an animal's photo, name, and breed. |
+| **ShelterCard** | Clickable card showing a shelter's name, address, and phone. |
+| **PostCard** | Clickable card for lost/found community reports with badge, image, and metadata. |
 
 ## Form Components (`src/components/forms/`)
 
@@ -26,6 +28,7 @@ Quick reference for the shared component library. Each component has a header co
 |---|---|
 | **ImageUpload** | Drag-and-drop image picker with preview. Validates file type and size. |
 | **LocationInput** | Google Places autocomplete input with geolocation button. Returns `{ address, lat, lng }`. |
+| **ReportPetForm** | Shared lost/found reporting form with draft persistence, upload flow, and Supabase post creation. |
 
 ## Layout Components (`src/components/layout/`)
 

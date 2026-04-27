@@ -1,13 +1,13 @@
 /**
  * ImageUpload — drag-and-drop (or click) image picker with preview.
  *
- * @prop {File|null} value     — currently selected file
- * @prop {function}  onChange  — called with the selected File
- * @prop {function}  onClear   — called when the user removes the image
- * @prop {string}    [accept]  — MIME filter (default "image/*")
- * @prop {number}    [maxSize] — max file size in bytes (default 5 MB)
+ * @prop {File|string|null} value — currently selected File or existing image URL
+ * @prop {function}          onChange
+ * @prop {function}          onClear
+ * @prop {string}            [accept]
+ * @prop {number}            [maxSize]
  */
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Upload, X, Image as ImageIcon } from "lucide-react";
 import styles from "./ImageUpload.module.css";
 
@@ -18,10 +18,26 @@ export default function ImageUpload({
   accept = "image/*",
   maxSize = 5 * 1024 * 1024,
 }) {
-  const [preview, setPreview] = useState(value ?? null);
+  const [preview, setPreview] = useState(null);
   const [dragActive, setDragActive] = useState(false);
   const [error, setError] = useState(null);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (!value) {
+      setPreview(null);
+      return undefined;
+    }
+
+    if (typeof value === "string") {
+      setPreview(value);
+      return undefined;
+    }
+
+    const objectUrl = URL.createObjectURL(value);
+    setPreview(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [value]);
 
   const validateAndProcess = useCallback(
     (file) => {
@@ -44,7 +60,7 @@ export default function ImageUpload({
       setPreview(objectUrl);
       onChange?.(file);
     },
-    [maxSize, onChange]
+    [maxSize, onChange],
   );
 
   const handleFileChange = (e) => {
@@ -93,10 +109,10 @@ export default function ImageUpload({
 
   return (
     <div className={styles.wrapper}>
-      {showPreview ? (
+      {preview ? (
         <div className={styles.previewContainer}>
           <img
-            src={preview || value}
+            src={preview}
             alt="Upload preview"
             className={styles.preview}
           />

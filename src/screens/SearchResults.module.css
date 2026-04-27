@@ -1,4 +1,42 @@
-/* Tabs — pill segmented control */
+.filtersCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, #ffffff 0%, var(--bg-secondary) 100%);
+  box-shadow: var(--shadow);
+}
+
+.filterGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-md);
+  text-align: left;
+}
+
+.summaryPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-height: 100%;
+  padding: 12px 14px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.resultSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+}
+
 .tabs {
   display: flex;
   gap: var(--space-xs);
@@ -56,9 +94,34 @@
   gap: var(--space-md);
 }
 
+@media (max-width: 900px) {
+  .filterGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 
 @media (max-width: 640px) {
-  .tab { padding: 8px 12px; font-size: var(--font-size-subheadline); }
-  .shelterGrid { grid-template-columns: 1fr; }
-  .animalGrid { grid-template-columns: repeat(2, 1fr); gap: var(--space-sm); }
+  .tabs {
+    width: 100%;
+  }
+
+  .tab {
+    padding: 8px 12px;
+    font-size: var(--font-size-subheadline);
+  }
+
+  .resultSummary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filterGrid,
+  .shelterGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .animalGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+  }
 }

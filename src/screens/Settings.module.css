@@ -1,4 +1,3 @@
-/* Two-column section row */
 .row {
   display: grid;
   grid-template-columns: 200px 1fr;
@@ -14,6 +13,12 @@
 
 .rowContent {
   min-width: 0;
+}
+
+.avatarEditor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .toggleRow {
@@ -36,7 +41,6 @@
   border-bottom: none;
 }
 
-/* Checkbox toggle */
 .toggle {
   appearance: none;
   width: 44px;
@@ -68,6 +72,12 @@
 
 .toggle:checked::after {
   transform: translateX(20px);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 64px 0;
 }
 
 @media (max-width: 640px) {

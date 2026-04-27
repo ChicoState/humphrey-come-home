@@ -2,19 +2,26 @@
  * Login — two-step OTP authentication screen.
  * Step 1: user enters their email, receives a one-time code.
  * Step 2: user enters the code to verify and log in.
- * Redirects home on success. Route: /login
+ * Redirects home (or a requested next route) on success. Route: /login
  */
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { VStack, Text, Container } from "@/components/primitives";
 import { useAuth } from "@/hooks/useAuth";
 import styles from "./Login.module.css";
 
+function getSafeNextPath(value) {
+  if (!value || typeof value !== "string") return "/";
+  return value.startsWith("/") ? value : "/";
+}
+
 export default function Login() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { signInWithOtp, verifyOtp } = useAuth();
+  const nextPath = getSafeNextPath(searchParams.get("next"));
 
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
@@ -46,7 +53,7 @@ export default function Login() {
     setLoading(true);
     try {
       await verifyOtp(email, code);
-      navigate("/");
+      navigate(nextPath);
     } catch (err) {
       setError(err?.message || "Invalid code. Please try again.");
     } finally {
@@ -55,10 +62,10 @@ export default function Login() {
   }
 
   return (
-    <VStack align="center" style={{ textAlign: 'center' }}>
+    <VStack align="center" style={{ textAlign: "center" }}>
       <VStack gap={4} align="center" paddingX={6} style={{ marginBottom: 24 }}>
         <Text variant="h1">{step === "email" ? "Sign In" : "Check your email"}</Text>
-        <Text variant="lg" color="muted" style={{ maxWidth: '44ch' }}>
+        <Text variant="lg" color="muted" style={{ maxWidth: "44ch" }}>
           {step === "email"
             ? "We'll send a code to your email"
             : `Enter the 6-digit code sent to ${email}`}

@@ -1,8 +1,8 @@
 /**
  * AnimalCard — clickable card showing an animal's photo, name, and breed.
  *
- * @prop {object}  animal       — animal record from Supabase
- * @prop {boolean} [showShelter] — show shelter name if available
+ * @prop {object}  animal        — animal record from Supabase
+ * @prop {boolean} [showShelter] — show shelter name / distance if available
  */
 import { useNavigate } from "react-router";
 import Card from "./Card";
@@ -11,6 +11,9 @@ import styles from "./AnimalCard.module.css";
 
 export default function AnimalCard({ animal, showShelter }) {
   const navigate = useNavigate();
+  const contextualLine = [animal.shelter_name, animal.distanceLabel]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <Card onClick={() => navigate(`/animals/${animal.id}`)} className={styles.card}>
@@ -22,8 +25,8 @@ export default function AnimalCard({ animal, showShelter }) {
         <Text variant="sm" color="muted">
           {[animal.species, animal.breed].filter(Boolean).join(" - ")}
         </Text>
-        {showShelter && animal.shelter_name && (
-          <Text variant="xs" color="light">{animal.shelter_name}</Text>
+        {showShelter && contextualLine && (
+          <Text variant="xs" color="light">{contextualLine}</Text>
         )}
       </div>
     </Card>

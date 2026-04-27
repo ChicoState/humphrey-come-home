@@ -62,7 +62,7 @@ export default function Profile() {
               <Button variant="outline" size="sm" icon={Settings} onClick={() => navigate("/settings")}>
                 Settings
               </Button>
-              <Button variant="outline" size="sm" icon={Camera} disabled>
+              <Button variant="outline" size="sm" icon={Camera} onClick={() => navigate("/settings")}>
                 Edit Photo
               </Button>
             </HStack>

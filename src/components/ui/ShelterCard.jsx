@@ -1,5 +1,6 @@
 /**
- * ShelterCard — clickable card showing a shelter's name, address, and phone.
+ * ShelterCard — clickable card showing a shelter's name, address, phone,
+ * and optional distance label.
  *
  * @prop {object} shelter — shelter record from Supabase
  */
@@ -18,6 +19,11 @@ export default function ShelterCard({ shelter }) {
       {shelter.address && (
         <Text variant="sm" color="muted" as="p" className={styles.detail}>
           <MapPin size={14} /> {shelter.address}
+        </Text>
+      )}
+      {shelter.distanceLabel && (
+        <Text variant="sm" color="muted" as="p" className={styles.detail}>
+          <MapPin size={14} /> {shelter.distanceLabel}
         </Text>
       )}
       {shelter.phone && (

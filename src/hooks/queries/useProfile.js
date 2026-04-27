@@ -2,7 +2,7 @@
  * React Query hooks for user profiles.
  *
  * useProfile(userId)    — fetches a single profile by ID (disabled when userId is falsy)
- * useUpdateProfile()    — mutation that updates { id, name, home_location }
+ * useUpdateProfile()    — mutation that upserts arbitrary profile fields
  *                         and writes the response directly into the cache
  */
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -28,10 +28,14 @@ export function useUpdateProfile() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, name, home_location }) => {
+    mutationFn: async ({ id, ...updates }) => {
+      const payload = Object.fromEntries(
+        Object.entries({ id, ...updates }).filter(([, value]) => value !== undefined),
+      );
+
       const { data, error } = await supabase
         .from("profiles")
-        .upsert({ id, name, home_location }, { onConflict: "id" })
+        .upsert(payload, { onConflict: "id" })
         .select()
         .single();
       if (error) throw error;
