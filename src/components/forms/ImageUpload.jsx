@@ -42,6 +42,7 @@ export default function ImageUpload({
   const validateAndProcess = useCallback(
     (file) => {
       setError(null);
+
       if (!file) return;
 
       if (!file.type.startsWith("image/")) {
@@ -55,6 +56,8 @@ export default function ImageUpload({
         return;
       }
 
+      const objectUrl = URL.createObjectURL(file);
+      setPreview(objectUrl);
       onChange?.(file);
     },
     [maxSize, onChange],
@@ -92,6 +95,7 @@ export default function ImageUpload({
   };
 
   const handleClear = () => {
+    setPreview(null);
     setError(null);
     if (inputRef.current) inputRef.current.value = "";
     onClear?.();
@@ -100,6 +104,8 @@ export default function ImageUpload({
   const handleClick = () => {
     inputRef.current?.click();
   };
+
+  const showPreview = preview || value;
 
   return (
     <div className={styles.wrapper}>
