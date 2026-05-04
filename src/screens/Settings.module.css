@@ -27,9 +27,7 @@
   gap: var(--space-md);
   padding: 14px 0;
   border-bottom: 1px solid var(--bg-tertiary);
-  cursor: default;
-  opacity: 0.5;
-  pointer-events: none;
+  cursor: pointer;
 }
 
 .toggleRow > div {

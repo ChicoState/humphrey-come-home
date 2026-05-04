@@ -7,7 +7,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Check, LogOut } from "lucide-react";
-import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Spinner from "@/components/ui/Spinner";
@@ -17,6 +16,7 @@ import usePlacesAutocomplete from "@/hooks/usePlacesAutocomplete";
 import { VStack, HStack, Text, Container } from "@/components/primitives";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile, useUpdateProfile } from "@/hooks/queries/useProfile";
+import { useNotificationPreferences, useUpdateNotificationPreferences } from "@/hooks/queries/useNotificationPreferences";
 import { uploadPublicImage } from "@/lib/storage";
 import styles from "./Settings.module.css";
 
@@ -25,11 +25,16 @@ export default function Settings() {
   const { user, signOut } = useAuth();
   const { data: profile, isLoading: profileLoading } = useProfile(user?.id);
   const updateProfile = useUpdateProfile();
+  const { data: notificationPrefs, isLoading: prefsLoading } = useNotificationPreferences(user?.id);
+  const updateNotificationPreferences = useUpdateNotificationPreferences();
 
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [avatarFile, setAvatarFile] = useState(null);
   const [avatarRemoved, setAvatarRemoved] = useState(false);
+  const [nearbyPostsEnabled, setNearbyPostsEnabled] = useState(true);
+  const [matchesEnabled, setMatchesEnabled] = useState(true);
+  const [repliesEnabled, setRepliesEnabled] = useState(true);
 
   useEffect(() => {
     if (profile) {
@@ -39,6 +44,14 @@ export default function Settings() {
       setAvatarFile(null);
     }
   }, [profile]);
+
+  useEffect(() => {
+  if (notificationPrefs) {
+    setNearbyPostsEnabled(notificationPrefs.nearby_posts_enabled ?? true);
+    setMatchesEnabled(notificationPrefs.matches_enabled ?? true);
+    setRepliesEnabled(notificationPrefs.replies_enabled ?? true);
+  }
+}, [notificationPrefs]);
 
   const places = usePlacesAutocomplete();
   const profileName = profile?.name || "";
@@ -84,7 +97,21 @@ export default function Settings() {
     navigate("/");
   }
 
-  if (profileLoading) {
+  async function handleSaveNotificationPreferences(e) {
+  e.preventDefault();
+  try {
+    await updateNotificationPreferences.mutateAsync({
+      userId: user.id,
+      nearby_posts_enabled: nearbyPostsEnabled,
+      matches_enabled: matchesEnabled,
+      replies_enabled: repliesEnabled,
+    });
+  } catch {
+    // Error surfaced via updateNotificationPreferences.isError
+  }
+}
+
+  if (profileLoading || prefsLoading) {
     return <div className={styles.loading}><Spinner size="lg" /></div>;
   }
 
@@ -167,33 +194,63 @@ export default function Settings() {
 
         <section className={styles.row}>
           <VStack gap={1}>
-            <div><Badge variant="warning">Coming soon</Badge></div>
             <Text variant="h3">Notifications</Text>
             <Text variant="sm" color="muted">Email alerts for nearby activity.</Text>
           </VStack>
           <div className={styles.rowContent}>
-            <VStack>
+            <VStack as="form" onSubmit={handleSaveNotificationPreferences} gap={4}>
               <label className={styles.toggleRow}>
                 <div>
                   <Text variant="body" weight="500">Lost pet alerts</Text>
                   <Text variant="sm" color="muted">Get notified when a pet is reported lost near you</Text>
                 </div>
-                <input type="checkbox" className={styles.toggle} disabled />
+                <input
+                  type="checkbox"
+                  className={styles.toggle}
+                  checked={nearbyPostsEnabled}
+                  onChange={(e) => setNearbyPostsEnabled(e.target.checked)}
+                />
               </label>
               <label className={styles.toggleRow}>
                 <div>
                   <Text variant="body" weight="500">Found pet alerts</Text>
                   <Text variant="sm" color="muted">Get notified when a pet is found near you</Text>
                 </div>
-                <input type="checkbox" className={styles.toggle} disabled />
+                <input
+                  type="checkbox"
+                  className={styles.toggle}
+                  checked={matchesEnabled}
+                  onChange={(e) => setMatchesEnabled(e.target.checked)}
+                />
               </label>
               <label className={styles.toggleRow}>
                 <div>
-                  <Text variant="body" weight="500">Product updates</Text>
-                  <Text variant="sm" color="muted">News and feature announcements</Text>
+                  <Text variant="body" weight="500">Reply notifications</Text>
+                  <Text variant="sm" color="muted">Get notified when someone replies to your post</Text>
                 </div>
-                <input type="checkbox" className={styles.toggle} disabled />
+                <input
+                  type="checkbox"
+                  className={styles.toggle}
+                  checked={repliesEnabled}
+                  onChange={(e) => setRepliesEnabled(e.target.checked)}
+                />
               </label>
+              <HStack gap={3} wrap>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  icon={Check}
+                  type="submit"
+                  loading={updateNotificationPreferences.isPending}
+                >
+                  {updateNotificationPreferences.isSuccess ? "Saved" : "Save"}
+                </Button>
+                {updateNotificationPreferences.isSuccess && (
+                  <Text variant="sm" color="success" style={{ alignSelf: "center" }}>
+                    Preferences updated.
+                  </Text>
+                )}
+              </HStack>
             </VStack>
           </div>
         </section>
