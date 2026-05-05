@@ -15,3 +15,12 @@ dist
 # OS
 .DS_Store
 Thumbs.db
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env.python
