@@ -1,6 +1,5 @@
 import os
 import sys
-import time
 from datetime import datetime, timezone
 
 import requests
@@ -35,81 +34,63 @@ def geocode_location(location, google_key):
     return loc["lat"], loc["lng"]
 
 def nearby_shelters(lat, lng, radius_meters, google_key):
-    results = []
-    page_token = None
-
-    while True:
-        params = {
-            "location": f"{lat},{lng}",
-            "radius": radius_meters,
-            "keyword": "animal shelter",
-            "key": google_key,
-        }
-
-        if page_token:
-            params["pagetoken"] = page_token
-            time.sleep(2)
-
-        res = requests.get(
-            "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
-            params=params,
-            timeout=20,
-        )
-        res.raise_for_status()
-        data = res.json()
-
-        status = data.get("status")
-        if status not in ("OK", "ZERO_RESULTS"):
-            raise RuntimeError(f"Places search failed: {status} {data.get('error_message', '')}")
-        
-        results.extend(data.get("results", []))
-
-        page_token = data.get("next_page_token")
-        if not page_token:
-            break
-
-    return results
-
-def place_details(place_id, google_key):
-    fields = ",".join(
+    field_mask = ",".join(
         [
-            "place_id",
-            "name",
-            "website",
-            "formatted_phone_number",
-            "formatted_address",
-            "geometry",
-            "url", 
+            "places.id",
+            "places.displayName",
+            "places.websiteUri",
+            "places.nationalPhoneNumber",
+            "places.formattedAddress",
+            "places.location",
+            "places.googleMapsUri",
+            "places.types",
         ]
     )
 
-    res = requests.get(
-        "https://maps.googleapis.com/maps/api/place/details/json",
-        params={"place_id": place_id, "fields": fields, "key": google_key},
-        timeout=20
+    res = requests.post(
+        "https://places.googleapis.com/v1/places:searchText",
+        headers={
+            "Content-Type": "application/json",
+            "X-Goog-Api-Key": google_key,
+            "X-Goog-FieldMask": field_mask,
+        },
+        json={
+            "textQuery": "animal shelters near Chico, CA",
+            "locationBias": {
+                "circle": {
+                    "center": {
+                        "latitude": lat,
+                        "longitude": lng,
+                    },
+                    "radius": radius_meters,
+                }
+            },
+            "maxResultCount": 20,
+        },
+        timeout=20,
     )
+
+    if not res.ok:
+        print(res.text, file=sys.stderr)
+        
     res.raise_for_status()
     data = res.json()
+    return data.get("places", [])
 
-    if data.get("status") != "OK":
-        raise RuntimeError(f"Place details failed for {place_id}: {data.get('status')}")
-    
-    return data["result"]
-
-def normalize_shelter(details):
-    location = details.get("geometry", {}).get("location", {})
+def normalize_shelter(place):
+    location = place.get("location", {})
     now = datetime.now(timezone.utc).isoformat()
 
     return {
-        "name": details.get("name"),
-        "website": details.get("website"),
-        "phone": details.get("formatted_phone_number"),
-        "address": details.get("formatted_address"),
-        "latitude": location.get("lat"),
-        "longitude": location.get("lng"),
+        "name": place.get("displayName", {}).get("text"),
+        "website": place.get("websiteUri"),
+        "phone": place.get("nationalPhoneNumber"),
+        "address": place.get("formattedAddress"),
+        "latitude": location.get("latitude"),
+        "longitude": location.get("longitude"),
         "source_platform": SOURCE_PLATFORM,
-        "external_id": details.get("place_id"),
-        "source_url": details.get("url"),
+        "external_id": place.get("id"),
+        "source_url": place.get("googleMapsUri"),
         "last_scraped_at": now,        
     }
 
@@ -122,7 +103,7 @@ def main():
     google_key = require_env("GOOGLE_MAPS_API_KEY")
 
     location = os.getenv("SCRAPER_LOCATION", "Chico, CA")
-    radius_miles = os.getenv("SCRAPER_RADIUS_MILES", "50")
+    radius_miles = os.getenv("SCRAPER_RADIUS_MILES", "31")
     dry_run = "--dry-run" in sys.argv
 
     supabase = create_client(supabase_url, service_key)
@@ -137,24 +118,14 @@ def main():
 
     rows = []
     for place in places:
-        place_id = place.get("place_id")
-        if not place_id:
+        row = normalize_shelter(place)
+
+        if not row["name"] or not row["external_id"]:
+            print(f"Skipping incomplete shelter: {place}")
             continue
 
-        try:
-            details = place_details(place_id, google_key)
-            row = normalize_shelter(details)
-
-            if not row["name"] or not row["external_id"]:
-                print(f"Skipping incomplete shelter: {place_id}")
-                continue
-
-            rows.append(row)
-            print(f"Prepared: {row['name']}")
-            time.sleep(0.15)
-
-        except Exception as exc:
-            print(f"Failed place {place_id}: {exc}", file=sys.stderr)
+        rows.append(row)
+        print(f"Prepared: {row['name']}")
 
     if dry_run:
         print("\nDry run only. Rows prepared:")
