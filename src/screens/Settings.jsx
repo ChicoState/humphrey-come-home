@@ -35,6 +35,10 @@ export default function Settings() {
   const [nearbyPostsEnabled, setNearbyPostsEnabled] = useState(true);
   const [matchesEnabled, setMatchesEnabled] = useState(true);
   const [repliesEnabled, setRepliesEnabled] = useState(true);
+  const [nearbyLocation, setNearbyLocation] = useState("");
+  const [nearbyLatitude, setNearbyLatitude] = useState(null);
+  const [nearbyLongitude, setNearbyLongitude] = useState(null);
+  const [nearbyDistanceMiles, setNearbyDistanceMiles] = useState(25);
 
   useEffect(() => {
     if (profile) {
@@ -50,10 +54,15 @@ export default function Settings() {
     setNearbyPostsEnabled(notificationPrefs.nearby_posts_enabled ?? true);
     setMatchesEnabled(notificationPrefs.matches_enabled ?? true);
     setRepliesEnabled(notificationPrefs.replies_enabled ?? true);
+    setNearbyLocation(notificationPrefs.nearby_location || "");
+    setNearbyLatitude(notificationPrefs.nearby_latitude || null);
+    setNearbyLongitude(notificationPrefs.nearby_longitude || null);
+    setNearbyDistanceMiles(notificationPrefs.nearby_distance_miles ?? 25);
   }
 }, [notificationPrefs]);
 
   const places = usePlacesAutocomplete();
+  const nearbyPlaces = usePlacesAutocomplete();
   const profileName = profile?.name || "";
   const profileLocation = profile?.home_location || "";
   const currentAvatarUrl = profile?.avatar_url || null;
@@ -63,6 +72,7 @@ export default function Settings() {
     location.trim() !== profileLocation ||
     !!avatarFile ||
     (avatarRemoved && !!currentAvatarUrl);
+  const isNearbySearchEnabled = nearbyPostsEnabled || matchesEnabled;
 
   async function handleSaveProfile(e) {
     e.preventDefault();
@@ -105,6 +115,10 @@ export default function Settings() {
       nearby_posts_enabled: nearbyPostsEnabled,
       matches_enabled: matchesEnabled,
       replies_enabled: repliesEnabled,
+      nearby_location: nearbyLocation.trim() || null,
+      nearby_latitude: nearbyLatitude,
+      nearby_longitude: nearbyLongitude,
+      nearby_distance_miles: nearbyDistanceMiles,
     });
   } catch {
     // Error surfaced via updateNotificationPreferences.isError
@@ -223,6 +237,45 @@ export default function Settings() {
                   onChange={(e) => setMatchesEnabled(e.target.checked)}
                 />
               </label>
+              {isNearbySearchEnabled && (
+                <div style={{ position: "relative" }}>
+                  <Input
+                    label="Search Location"
+                    id="nearby-location"
+                    value={nearbyLocation}
+                    onChange={(e) => {
+                      setNearbyLocation(e.target.value);
+                      if (nearbyPlaces.ready) nearbyPlaces.fetchSuggestions(e.target.value);
+                    }}
+                    onBlur={() => nearbyPlaces.clearSuggestions()}
+                    placeholder="City, State"
+                    autoComplete="off"
+                    required={isNearbySearchEnabled}
+                  />
+                  <SuggestionList
+                    suggestions={nearbyPlaces.suggestions}
+                    onSelect={async (prediction) => {
+                      const result = await nearbyPlaces.selectSuggestion(prediction);
+                      setNearbyLocation(result.address);
+                      setNearbyLatitude(result.lat);
+                      setNearbyLongitude(result.lng);
+                    }}
+                    position="below"
+                  />
+                </div>
+              )}
+              {isNearbySearchEnabled && (
+                <Input
+                  label="Search Radius"
+                  id="nearby-distance"
+                  type="number"
+                  min="1"
+                  max="500"
+                  value={nearbyDistanceMiles}
+                  onChange={(e) => setNearbyDistanceMiles(Math.max(1, parseInt(e.target.value) || 1))}
+                  placeholder="Miles"
+                />
+              )}
               <label className={styles.toggleRow}>
                 <div>
                   <Text variant="body" weight="500">Reply notifications</Text>
