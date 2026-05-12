@@ -403,6 +403,7 @@ export default function ReportPetForm({ mode = "lost" }) {
                       placeholder={copy.locationPlaceholder}
                       error={fieldErrors.location}
                       dropDown
+                      showSubmitButton={false}
                     />
                   </div>
                   <Input

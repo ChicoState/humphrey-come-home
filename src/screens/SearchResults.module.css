@@ -11,10 +11,14 @@
 }
 
 .filterGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  display: flex;
   gap: var(--space-md);
   text-align: left;
+}
+
+.filterGrid > * {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .resultSummary {
@@ -99,6 +103,7 @@
 
   .filterGrid,
   .shelterGrid {
+    display: grid;
     grid-template-columns: 1fr;
   }
 

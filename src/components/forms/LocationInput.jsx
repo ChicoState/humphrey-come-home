@@ -8,6 +8,7 @@
  * @prop {string}   [placeholder]
  * @prop {string}   [error]          — error message to display
  * @prop {boolean}  [dropDown]       — renders suggestions in a dropdown panel vs. inline list
+ * @prop {boolean}  [showSubmitButton] — shows the search submit button
  *
  * Also provides a "use my location" geolocation button.
  */
@@ -28,6 +29,7 @@ export default function LocationInput({
   placeholder = "Search by address, city, or ZIP code",
   error,
   dropDown = false,
+  showSubmitButton = true,
 }) {
   const [inputValue, setInputValue] = useState(value?.address ?? "");
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -156,7 +158,9 @@ export default function LocationInput({
             {locating ? "Locating..." : "Near Me"}
           </Button>
           <div className={styles.spacer} />
-          <Button variant="primary" size="sm" icon={ArrowUp} disabled={!canSubmit} onClick={onSubmit} aria-label="Submit search" />
+          {showSubmitButton && (
+            <Button variant="primary" size="sm" icon={ArrowUp} disabled={!canSubmit} onClick={onSubmit} aria-label="Submit search" />
+          )}
         </HStack>
 
         {error && <p className={styles.errorMessage} role="alert">{error}</p>}

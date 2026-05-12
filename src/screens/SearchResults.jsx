@@ -248,6 +248,18 @@ export default function SearchResults() {
       </VStack>
 
       <Container size="lg" padding={0}>
+        <div className={styles.tabs}>
+          {TABS.map((tab) => (
+            <button
+              key={tab.key}
+              className={`${styles.tab} ${activeTab === tab.key ? styles.tabActive : ""}`}
+              onClick={() => updateParams({ tab: tab.key })}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
         <div className={styles.filtersCard}>
           <div className={styles.filterGrid}>
             <Input
@@ -301,18 +313,6 @@ export default function SearchResults() {
               </Text>
             )}
           </div>
-        </div>
-
-        <div className={styles.tabs}>
-          {TABS.map((tab) => (
-            <button
-              key={tab.key}
-              className={`${styles.tab} ${activeTab === tab.key ? styles.tabActive : ""}`}
-              onClick={() => updateParams({ tab: tab.key })}
-            >
-              {tab.label}
-            </button>
-          ))}
         </div>
 
         {activeTab === "shelters" && (
