@@ -179,7 +179,7 @@ export default function Landing() {
           <section className={styles.feedColumn}>
             <div className={styles.feedHeader}>
               <div>
-                <Text variant="subtitle">Animals</Text>
+                <Text variant="subtitle">Recently added animals</Text>
               </div>
               <Button variant="outline" size="sm" onClick={() => navigate("/search?tab=animals")}>View all</Button>
             </div>
