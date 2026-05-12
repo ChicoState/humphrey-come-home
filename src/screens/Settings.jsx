@@ -51,9 +51,9 @@ export default function Settings() {
 
   useEffect(() => {
   if (notificationPrefs) {
-    setNearbyPostsEnabled(notificationPrefs.nearby_posts_enabled ?? true);
-    setMatchesEnabled(notificationPrefs.matches_enabled ?? true);
-    setRepliesEnabled(notificationPrefs.replies_enabled ?? true);
+    setNearbyPostsEnabled(notificationPrefs.lost_pet_notifications ?? true);
+    setMatchesEnabled(notificationPrefs.found_pet_notifications ?? true);
+    setRepliesEnabled(notificationPrefs.post_replies ?? true);
     setNearbyLocation(notificationPrefs.nearby_location || "");
     setNearbyLatitude(notificationPrefs.nearby_latitude || null);
     setNearbyLongitude(notificationPrefs.nearby_longitude || null);

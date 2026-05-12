@@ -266,6 +266,28 @@ export default function ReportPetForm({ mode = "lost" }) {
 
     const created = await createPost.mutateAsync(payload);
 
+    try {
+      const { data, error } = await supabase.functions.invoke("Notifications", {
+        body: {
+          notification_type: "nearby_post",
+          post_status: created.status,
+          post_id: created.id,
+          post_latitude: created.latitude,
+          post_longitude: created.longitude,
+          subject: "New Post Nearby",
+          message: "Someone posted near your saved location!",
+        },
+      });
+
+      if (error) {
+        console.error("send-notification error:", error);
+      } else {
+        console.log("send-notification success:", data);
+      }
+    } catch (notifError) {
+      console.error("send-notification failed:", notifError);
+    }
+
     window.localStorage.removeItem(draftKey);
     setImageFile(null);
     navigate(`/posts/${created.id}`);

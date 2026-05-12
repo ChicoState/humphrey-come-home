@@ -28,8 +28,14 @@ export function useUpdateNotificationPreferences() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ userId, ...updates }) => {
-      const payload = { user_id: userId, ...updates };
+    mutationFn: async ({ userId, nearby_posts_enabled, matches_enabled, replies_enabled, ...updates }) => {
+      const payload = {
+        user_id: userId,
+        lost_pet_notifications: nearby_posts_enabled,
+        found_pet_notifications: matches_enabled,
+        post_replies: replies_enabled,
+        ...updates,
+      };
 
       const { data, error } = await supabase
         .from("notification_preferences")
