@@ -23,6 +23,7 @@ export async function uploadPublicImage({ bucket, file, userId }) {
     .from(bucket)
     .upload(path, file, {
       cacheControl: "3600",
+      contentType: file.type || undefined,
       upsert: false,
     });
 
