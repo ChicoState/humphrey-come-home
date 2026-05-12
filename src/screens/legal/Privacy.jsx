@@ -1,6 +1,3 @@
-/**
- * PrivacyPolicy — static legal page (placeholder content). Route: /privacy
- */
 import { VStack, Text, Container } from "@/components/primitives";
 
 export default function PrivacyPolicy() {
@@ -8,7 +5,7 @@ export default function PrivacyPolicy() {
     <Container size="md">
       <VStack gap={2}>
         <Text variant="h2">Privacy Policy</Text>
-        <Text variant="sm" color="light" style={{ marginBottom: 16 }}>Last updated: March 2026</Text>
+        <Text variant="sm" color="light" style={{ marginBottom: 16 }}>Last updated: May 2026</Text>
       </VStack>
 
       <VStack gap={5}>
@@ -43,10 +40,6 @@ export default function PrivacyPolicy() {
             no method of transmission over the internet is 100% secure.
           </Text>
         </VStack>
-
-        <Text variant="sm" color="light" style={{ fontStyle: "italic", marginTop: 8 }}>
-          Full privacy policy details are coming soon. If you have questions, please contact us.
-        </Text>
       </VStack>
     </Container>
   );
