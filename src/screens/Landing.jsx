@@ -5,7 +5,6 @@ import { VStack, HStack, Text, Container, Divider, ScrollRail } from "@/componen
 import { useAnimals } from "@/hooks/queries/useAnimals";
 import { usePosts } from "@/hooks/queries/usePosts";
 import Button from "@/components/ui/Button";
-import Badge from "@/components/ui/Badge";
 import AnimalCard from "@/components/ui/AnimalCard";
 import PostCard from "@/components/ui/PostCard";
 import PolaroidRail from "@/components/ui/PolaroidRail";
@@ -134,11 +133,7 @@ export default function Landing() {
         <div className={styles.sectionHeader}>
           <div>
             <Text variant="subtitle">How Humphrey helps</Text>
-            <Text variant="body" color="muted" style={{ marginTop: 8 }}>
-              The app now supports live shelter search, community report browsing, and guided lost/found reporting flows.
-            </Text>
           </div>
-          <Badge variant="success">Live data</Badge>
         </div>
 
         <div className={styles.howItWorksGrid}>
@@ -161,7 +156,6 @@ export default function Landing() {
             <div className={styles.feedHeader}>
               <div>
                 <Text variant="subtitle">Recent community reports</Text>
-                <Text variant="sm" color="muted">Real lost and found posts from the app.</Text>
               </div>
               <Button variant="outline" size="sm" onClick={() => navigate("/search?tab=posts")}>View all</Button>
             </div>
@@ -185,10 +179,9 @@ export default function Landing() {
           <section className={styles.feedColumn}>
             <div className={styles.feedHeader}>
               <div>
-                <Text variant="subtitle">Animals you can search now</Text>
-                <Text variant="sm" color="muted">Pulled from shelter listings that already exist in the database.</Text>
+                <Text variant="subtitle">Animals</Text>
               </div>
-              <Button variant="outline" size="sm" onClick={() => navigate("/search?tab=animals")}>Browse animals</Button>
+              <Button variant="outline" size="sm" onClick={() => navigate("/search?tab=animals")}>View all</Button>
             </div>
 
             {animalsLoading ? (

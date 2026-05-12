@@ -8,7 +8,6 @@ import { AlertCircle, CheckCircle2, Clock3, LogIn, MapPin, Search, ShieldCheck }
 import ImageUpload from "@/components/forms/ImageUpload";
 import LocationInput from "@/components/forms/LocationInput";
 import { Container, Divider, HStack, Text, VStack } from "@/components/primitives";
-import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
@@ -50,7 +49,6 @@ const MICROCHIP_OPTIONS = [
 
 const MODE_COPY = {
   lost: {
-    badge: "Lost pet report",
     title: "Report a Lost Pet",
     subtitle: "Create a clear, searchable report so nearby shelters and community members can help spot your pet fast.",
     locationLabel: "Last seen location",
@@ -60,7 +58,6 @@ const MODE_COPY = {
     submitLabel: "Publish Lost Pet Report",
   },
   found: {
-    badge: "Found pet report",
     title: "Report a Found Pet",
     subtitle: "Share where and when you found the pet so the owner has a better chance of reconnecting quickly.",
     locationLabel: "Location found",
@@ -278,7 +275,6 @@ export default function ReportPetForm({ mode = "lost" }) {
   return (
     <VStack align="center" style={{ textAlign: "center" }}>
       <VStack gap={4} align="center" paddingX={6} style={{ marginBottom: 24 }}>
-        <Badge variant={mode === "found" ? "warning" : "error"}>{copy.badge}</Badge>
         <Text variant="h1">{copy.title}</Text>
         <Text variant="lg" color="muted" style={{ maxWidth: "46ch" }}>
           {copy.subtitle}
@@ -420,21 +416,6 @@ export default function ReportPetForm({ mode = "lost" }) {
                 </div>
               </section>
 
-              <section className={styles.sectionCard}>
-                <HStack gap={2} align="center" className={styles.sectionHeading}>
-                  <ShieldCheck size={18} />
-                  <Text variant="h3">Additional details</Text>
-                </HStack>
-                <Input
-                  label="Notes"
-                  id={`${mode}-notes`}
-                  type="textarea"
-                  value={form.notes}
-                  onChange={(e) => updateField("notes", e.target.value)}
-                  placeholder={copy.notesPlaceholder}
-                  error={fieldErrors.notes}
-                />
-              </section>
             </div>
 
             <aside className={styles.sideColumn}>
@@ -473,6 +454,22 @@ export default function ReportPetForm({ mode = "lost" }) {
                     error={fieldErrors.contactEmail}
                   />
                 </VStack>
+              </section>
+
+              <section className={styles.sideCard}>
+                <HStack gap={2} align="center" className={styles.sectionHeading}>
+                  <ShieldCheck size={18} />
+                  <Text variant="h3">Additional details</Text>
+                </HStack>
+                <Input
+                  label="Notes"
+                  id={`${mode}-notes`}
+                  type="textarea"
+                  value={form.notes}
+                  onChange={(e) => updateField("notes", e.target.value)}
+                  placeholder={copy.notesPlaceholder}
+                  error={fieldErrors.notes}
+                />
               </section>
 
               <section className={styles.sideCard}>
