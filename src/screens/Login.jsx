@@ -14,7 +14,7 @@ import styles from "./Login.module.css";
 
 function getSafeNextPath(value) {
   if (!value || typeof value !== "string") return "/";
-  return value.startsWith("/") ? value : "/";
+  return value.startsWith("/") && !value.startsWith("//") ? value : "/";
 }
 
 export default function Login() {
@@ -36,7 +36,7 @@ export default function Login() {
 
     setLoading(true);
     try {
-      await signInWithOtp(email);
+      await signInWithOtp(email, nextPath);
       setStep("code");
     } catch (err) {
       setError(err?.message || "Failed to send code. Please try again.");
