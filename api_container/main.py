@@ -23,7 +23,7 @@ def ProcessTerms(city, state):
    
 @app.post("/populate")
 async def AddToDataBase(req: LocationRequest):
-    dry_run = True # For testing
+    dry_run = False # For testing
     location = ProcessTerms(req.city, req.state)
     radius_miles = req.radius
 
