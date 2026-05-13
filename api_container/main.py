@@ -40,10 +40,38 @@ async def AddToDataBase(req: LocationRequest):
     lat, lng = geocode_location(location, google_key)
 
     print(f"Searching shelters within {radius_miles} miles...")
-    places = get_nearby_shelters(lat, lng, location, radius_miles, google_key)
+    shelters = get_nearby_shelters(lat, lng, location, radius_miles, google_key)
 
-    print(f"Found {len(places)} place results.")
+    print(f"Found {len(shelters)} place results.")
 
-    upsert_shelters(places, dry_run)
-    
+    if len(shelters) < 1:
+        print("No Shelters found in search area.")
+        return
+    rows = []
+
+    for location in shelters:
+        row = normalize_shelter(location)
+
+        if not row["name"] or not row["external_id"]:
+            print(f"Skipping incomplete shelter: {location}")
+            continue
+
+        rows.append(row)
+        print(f"Prepared: {row['name']}")
+
+    if dry_run:
+        print("\nDry run only. Rows prepared:")
+        for row in rows:
+            print(row)
+        return
+
+    result = (
+        supabase.table("shelters")
+        .upsert(rows, on_conflict="source_platform,external_id")
+        .execute()
+    )
+
+    print(f"Upserted {len(result.data)} shelters.")
+
+
 

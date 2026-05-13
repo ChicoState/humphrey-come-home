@@ -29,36 +29,5 @@ def normalize_shelter(place):
         "last_scraped_at": now,        
     }
 
-def upsert_shelters(shelters, dry_run):
-    if len(shelters) < 1:
-        print("No Shelters found in search area.")
-        return
-    rows = []
-
-    for location in shelters:
-        row = normalize_shelter(location)
-
-        if not row["name"] or not row["external_id"]:
-            print(f"Skipping incomplete shelter: {location}")
-            continue
-
-        rows.append(row)
-        print(f"Prepared: {row['name']}")
-
-    if dry_run:
-        print("\nDry run only. Rows prepared:")
-        for row in rows:
-            print(row)
-        return
-
-    result = (
-        supabase.table("shelters")
-        .upsert(rows, on_conflict="source_platform,external_id")
-        .execute()
-    )
-
-    print(f"Upserted {len(result.data)} shelters.")
-
-
 
 
