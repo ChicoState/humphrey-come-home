@@ -4,8 +4,8 @@
  * Shows a spinner while the auth session is resolving.
  */
 import { Navigate, Outlet, useLocation } from "react-router";
-import Spinner from "@/components/ui/Spinner";
 import { useAuth } from "@/hooks/useAuth";
+import Spinner from "@/components/ui/Spinner";
 
 export default function ProtectedRoute() {
   const { user, loading } = useAuth();

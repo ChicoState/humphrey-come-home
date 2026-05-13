@@ -36,24 +36,17 @@ npm run dev             # http://localhost:5173 start the local frontend test se
 VITE_SUPABASE_URL=https://your-project-id.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 VITE_GOOGLE_MAPS_API_KEY=your-google-maps-api-key
+VITE_SITE_URL=https://humphrey-come-home.netlify.app
+
+# Server-side only for scripts/backfill-shelter-coords.mjs
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
 
-All variables are `VITE_`-prefixed so Vite exposes them to the client. Don't put secret keys here.
+Only variables with the `VITE_` prefix are exposed to the browser by Vite. Keep `SUPABASE_SERVICE_ROLE_KEY` server-side only; do not add a `VITE_` prefix to it.
 
 The Google Maps key is locked to specific referrers. If your dev port isn't already on the list, add it in [Google Cloud Console](https://console.cloud.google.com/apis/credentials) — e.g. `http://localhost:5173/*`. Wildcard ports aren't accepted.
 
-### Testing
-
-All testing currently is done through vitest.
-
-To run tests
-```bash
-npm run tests
-```
-To run tests with coverage add flag
-```bash
-npm run tests --coverage
-```
+For production auth emails, set `VITE_SITE_URL` in Netlify to the public frontend origin. Also add the same origin to Supabase Auth redirect URLs, for example `https://humphrey-come-home.netlify.app/*`. Otherwise Supabase may fall back to a localhost Site URL in magic-link emails.
 
 ## Documentation
 

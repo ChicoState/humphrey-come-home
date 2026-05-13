@@ -13,6 +13,7 @@
  */
 import { createContext, useState, useEffect, useCallback, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
+import { getPublicRedirectUrl } from "@/lib/siteUrl";
 
 export const AuthContext = createContext(null);
 
@@ -37,8 +38,13 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
-  const signInWithOtp = useCallback(async (email) => {
-    const { data, error } = await supabase.auth.signInWithOtp({ email });
+  const signInWithOtp = useCallback(async (email, redirectPath = "/") => {
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: getPublicRedirectUrl(redirectPath),
+      },
+    });
     if (error) throw error;
     return data;
   }, []);
