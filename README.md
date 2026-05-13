@@ -42,6 +42,19 @@ All variables are `VITE_`-prefixed so Vite exposes them to the client. Don't put
 
 The Google Maps key is locked to specific referrers. If your dev port isn't already on the list, add it in [Google Cloud Console](https://console.cloud.google.com/apis/credentials) — e.g. `http://localhost:5173/*`. Wildcard ports aren't accepted.
 
+### Testing
+
+All testing currently is done through vitest.
+
+To run tests
+```bash
+npm run tests
+```
+To run tests with coverage add flag
+```bash
+npm run tests --coverage
+```
+
 ## Documentation
 
 | Doc | What's in it |
