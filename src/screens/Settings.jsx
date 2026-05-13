@@ -39,6 +39,7 @@ export default function Settings() {
   const [nearbyLatitude, setNearbyLatitude] = useState(null);
   const [nearbyLongitude, setNearbyLongitude] = useState(null);
   const [nearbyDistanceMiles, setNearbyDistanceMiles] = useState(25);
+  const [saveError, setSaveError] = useState("");
 
   useEffect(() => {
     if (profile) {
@@ -46,6 +47,7 @@ export default function Settings() {
       setLocation(profile.home_location || "");
       setAvatarRemoved(false);
       setAvatarFile(null);
+      setSaveError("");
     }
   }, [profile]);
 
@@ -76,6 +78,7 @@ export default function Settings() {
 
   async function handleSaveProfile(e) {
     e.preventDefault();
+    setSaveError("");
     try {
       let avatarUrl = avatarRemoved ? null : currentAvatarUrl;
 
@@ -97,8 +100,9 @@ export default function Settings() {
 
       setAvatarFile(null);
       setAvatarRemoved(false);
-    } catch {
-      // Error surfaced via updateProfile.isError
+    } catch (error) {
+      console.error("save profile failed:", error);
+      setSaveError(error?.message || "We couldn't save your profile right now.");
     }
   }
 
@@ -199,6 +203,11 @@ export default function Settings() {
                 {updateProfile.isSuccess && !hasChanges && (
                   <Text variant="sm" color="success" style={{ alignSelf: "center" }}>
                     Profile updated.
+                  </Text>
+                )}
+                {saveError && (
+                  <Text variant="sm" color="error" style={{ alignSelf: "center" }}>
+                    {saveError}
                   </Text>
                 )}
               </HStack>

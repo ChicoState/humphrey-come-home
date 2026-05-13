@@ -48,6 +48,9 @@ Animal shelters, populated by scrapers.
 | `longitude` | double precision | |
 | `created_at` | timestamptz | Default `now()` |
 | `last_scraped_at` | timestamptz | |
+| `source_platform` | text | Scraper source system |
+| `external_id` | text | Source-specific shelter identifier. Unique with `source_platform` when both are set |
+| `source_url` | text | Source listing URL |
 
 ### animals
 
