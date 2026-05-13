@@ -5,6 +5,7 @@ dist
 *.local
 *~
 supabase/.temp/
+coverage/
 
 # IDE
 .vscode/
