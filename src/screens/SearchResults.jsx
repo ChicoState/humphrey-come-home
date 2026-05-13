@@ -7,7 +7,6 @@ import { useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { Building2, FileSearch, PawPrint } from "lucide-react";
 import AnimalCard from "@/components/ui/AnimalCard";
-import Badge from "@/components/ui/Badge";
 import EmptyState from "@/components/ui/EmptyState";
 import Input from "@/components/ui/Input";
 import PostCard from "@/components/ui/PostCard";
@@ -234,7 +233,6 @@ export default function SearchResults() {
   return (
     <VStack align="center" style={{ textAlign: "center" }}>
       <VStack gap={4} align="center" paddingX={6} style={{ marginBottom: 24 }}>
-        <Badge variant="info">Live filters enabled</Badge>
         <Text variant="h1">Search Results</Text>
         {address ? (
           <Text variant="lg" color="muted" style={{ maxWidth: "44ch" }}>
@@ -250,6 +248,18 @@ export default function SearchResults() {
       </VStack>
 
       <Container size="lg" padding={0}>
+        <div className={styles.tabs}>
+          {TABS.map((tab) => (
+            <button
+              key={tab.key}
+              className={`${styles.tab} ${activeTab === tab.key ? styles.tabActive : ""}`}
+              onClick={() => updateParams({ tab: tab.key })}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
         <div className={styles.filtersCard}>
           <div className={styles.filterGrid}>
             <Input
@@ -290,15 +300,7 @@ export default function SearchResults() {
                 onChange={(e) => updateParams({ postStatus: e.target.value })}
                 options={POST_STATUS_OPTIONS}
               />
-            ) : (
-              <div className={styles.summaryPanel}>
-                <Text variant="label" color="muted">Filtered results</Text>
-                <Text variant="subtitle">{activeCount}</Text>
-                <Text variant="sm" color="muted">
-                  {hasCoordinates ? `Inside ${distance} miles` : "All visible shelters"}
-                </Text>
-              </div>
-            )}
+            ) : null}
           </div>
 
           <div className={styles.resultSummary}>
@@ -311,18 +313,6 @@ export default function SearchResults() {
               </Text>
             )}
           </div>
-        </div>
-
-        <div className={styles.tabs}>
-          {TABS.map((tab) => (
-            <button
-              key={tab.key}
-              className={`${styles.tab} ${activeTab === tab.key ? styles.tabActive : ""}`}
-              onClick={() => updateParams({ tab: tab.key })}
-            >
-              {tab.label}
-            </button>
-          ))}
         </div>
 
         {activeTab === "shelters" && (
