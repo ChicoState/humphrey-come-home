@@ -1,21 +1,38 @@
+from fastapi import FastAPI
+from pydantic import BaseModel
+
 import os, sys
 from dotenv import load_dotenv
 from supabase import create_client
 from google_api import *
 from utils import *
 
-def main():
+app = FastAPI()
+
+class LocationRequest(BaseModel):
+    city: str
+    state: str
+    radius: str
+
+def ProcessTerms(city, state):
+    if len(state) < 3:
+        state = state.upper()
+    else:
+        state = state.title()
+    return f"{city.title()}, {state}"
+   
+@app.post("/populate")
+async def AddToDataBase(req: LocationRequest):
+    dry_run = True # For testing
+    location = ProcessTerms(req.city, req.state)
+    radius_miles = req.radius
+
     load_dotenv()
     load_dotenv(".env.local")
 
     supabase_url = require_env("SUPABASE_URL")
     service_key = require_env("SUPABASE_SERVICE_ROLE_KEY")
     google_key = require_env("GOOGLE_MAPS_API_KEY")
-
-    location = os.getenv("SCRAPER_LOCATION", "Chico, CA")
-    radius_miles = os.getenv("SCRAPER_RADIUS_MILES", "31")
-    
-    dry_run = "--dry-run" in sys.argv
 
     supabase = create_client(supabase_url, service_key)
 
@@ -29,8 +46,4 @@ def main():
 
     upsert_shelters(places, dry_run)
     
-    
 
-
-if __name__ == "__main__":
-    main()
