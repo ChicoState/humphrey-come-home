@@ -2,6 +2,8 @@
 # and deploy it on Cloud Run when a commit is pushed to the "main"
 # branch.
 #
+# NOTE TEST COMMENT FOR GITHUB ACTION CAN BE DELETED LATER
+#
 # To configure this workflow:
 #
 # 1. Enable the following Google Cloud APIs:
