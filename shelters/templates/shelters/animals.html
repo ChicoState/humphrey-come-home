@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stray Animals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background: #f7f7f7;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .animal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .animal-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .animal-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: scale-down;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .no-photo {
+            width: 100%;
+            height: 250px;
+            background: #ddd;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .animal-card h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .animal-card p {
+            margin: 6px 0;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stray Animals</h1>
+
+    <div class="animal-grid">
+        {% for animal in animals %}
+            <div class="animal-card">
+                {% if animal.photo %}
+                    <img src="{{ animal.photo }}" alt="{{ animal.breed }}">
+                {% else %}
+                    <div class="no-photo">No Photo Available</div>
+                {% endif %}
+
+                <h2>{{ animal.breed|default:"Unknown Breed" }}</h2>
+
+                <p><span class="label">ID:</span> {{ animal.animal_id }}</p>
+                <p><span class="label">Intake Date:</span> {{ animal.intake_date }}</p>
+                <p><span class="label">Color:</span> {{ animal.color }}</p>
+                <p><span class="label">Sex:</span> {{ animal.sex }}</p>
+                <p><span class="label">Age:</span> {{ animal.age }}</p>
+                <p><span class="label">Location:</span> {{ animal.location }}</p>
+                <p><span class="label">Shelter Location:</span> {{ animal.shelter_location }}</p>
+                <p><span class="label">Note:</span> {{ animal.note }}</p>
+
+                {% if animal.source_url %}
+                    <p>
+                        <a href="{{ animal.source_url }}" target="_blank">Original Shelter Page</a>
+                    </p>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No animals found.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
