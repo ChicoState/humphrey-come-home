@@ -1,6 +1,3 @@
-/**
- * TermsOfService — static legal page (placeholder content). Route: /terms
- */
 import { VStack, Text, Container } from "@/components/primitives";
 
 export default function TermsOfService() {
@@ -8,7 +5,7 @@ export default function TermsOfService() {
     <Container size="md">
       <VStack gap={2}>
         <Text variant="h2">Terms of Service</Text>
-        <Text variant="sm" color="light" style={{ marginBottom: 16 }}>Last updated: March 2026</Text>
+        <Text variant="sm" color="light" style={{ marginBottom: 16 }}>Last updated: May 2026</Text>
       </VStack>
 
       <VStack gap={5}>
@@ -43,10 +40,6 @@ export default function TermsOfService() {
             violates others&apos; rights.
           </Text>
         </VStack>
-
-        <Text variant="sm" color="light" style={{ fontStyle: "italic", marginTop: 8 }}>
-          Full terms of service details are coming soon. If you have questions, please contact us.
-        </Text>
       </VStack>
     </Container>
   );

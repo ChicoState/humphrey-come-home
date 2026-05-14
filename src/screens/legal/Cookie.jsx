@@ -1,6 +1,3 @@
-/**
- * CookiePolicy — static legal page (placeholder content). Route: /cookies
- */
 import { VStack, Text, Container } from "@/components/primitives";
 
 export default function CookiePolicy() {
@@ -8,7 +5,7 @@ export default function CookiePolicy() {
     <Container size="md">
       <VStack gap={2}>
         <Text variant="h2">Cookie Policy</Text>
-        <Text variant="sm" color="light" style={{ marginBottom: 16 }}>Last updated: March 2026</Text>
+        <Text variant="sm" color="light" style={{ marginBottom: 16 }}>Last updated: May 2026</Text>
       </VStack>
 
       <VStack gap={5}>
@@ -40,10 +37,6 @@ export default function CookiePolicy() {
             certain cookies may affect platform functionality.
           </Text>
         </VStack>
-
-        <Text variant="sm" color="light" style={{ fontStyle: "italic", marginTop: 8 }}>
-          Full cookie policy details are coming soon. If you have questions, please contact us.
-        </Text>
       </VStack>
     </Container>
   );

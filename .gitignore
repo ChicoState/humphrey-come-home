@@ -4,6 +4,8 @@ dist
 .env.local
 *.local
 *~
+supabase/.temp/
+coverage/
 
 # IDE
 .vscode/

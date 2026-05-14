@@ -11,22 +11,14 @@
 }
 
 .filterGrid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
   gap: var(--space-md);
   text-align: left;
 }
 
-.summaryPanel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-  min-height: 100%;
-  padding: 12px 14px;
-  border: 1px dashed var(--border);
-  border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.72);
+.filterGrid > * {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .resultSummary {
@@ -94,12 +86,6 @@
   gap: var(--space-md);
 }
 
-@media (max-width: 900px) {
-  .filterGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
 @media (max-width: 640px) {
   .tabs {
     width: 100%;
@@ -117,6 +103,7 @@
 
   .filterGrid,
   .shelterGrid {
+    display: grid;
     grid-template-columns: 1fr;
   }
 
