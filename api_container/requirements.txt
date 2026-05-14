@@ -1,0 +1,6 @@
+dotenv
+supabase
+fastapi
+requests
+uvicorn
+tldextract

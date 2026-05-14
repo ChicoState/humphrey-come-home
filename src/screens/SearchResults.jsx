@@ -3,8 +3,9 @@
  * Reads location + filters from URL search params.
  * Route: /search?address=...&lat=...&lng=...
  */
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { Building2, FileSearch, PawPrint } from "lucide-react";
 import AnimalCard from "@/components/ui/AnimalCard";
 import EmptyState from "@/components/ui/EmptyState";
@@ -19,6 +20,7 @@ import { usePosts } from "@/hooks/queries/usePosts";
 import { useShelters } from "@/hooks/queries/useShelters";
 import { compareDistanceThenNewest, formatDistance, haversineMiles } from "@/lib/location";
 import { parseReportDescription } from "@/lib/reportDescription";
+import { populateShelters } from "@/lib/shelterPopulate";
 import styles from "./SearchResults.module.css";
 
 const TABS = [
@@ -71,6 +73,8 @@ function matchesQuery(fields, query) {
 export default function SearchResults() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const populateRequests = useRef(new Set());
 
   const rawTab = searchParams.get("tab");
   const activeTab = ["shelters", "animals", "posts"].includes(rawTab)
@@ -85,6 +89,24 @@ export default function SearchResults() {
   const animalStatus = searchParams.get("animalStatus") || "available";
   const postStatus = searchParams.get("postStatus") || "open";
   const hasCoordinates = lat != null && lng != null && !Number.isNaN(lat) && !Number.isNaN(lng);
+
+  useEffect(() => {
+    if (!address) return;
+
+    const requestKey = `${address}|${distance}`;
+    if (populateRequests.current.has(requestKey)) return;
+    populateRequests.current.add(requestKey);
+
+    populateShelters({ address, radius: distance })
+      .then((result) => {
+        if (!result.skipped) {
+          queryClient.invalidateQueries({ queryKey: ["shelters"] });
+        }
+      })
+      .catch((error) => {
+        console.warn("Shelter populate request failed", error);
+      });
+  }, [address, distance, queryClient]);
 
   function updateParams(updates) {
     setSearchParams((prev) => {
