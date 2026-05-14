@@ -43,7 +43,7 @@ def get_nearby_shelters(lat, lng, location, radius_miles, google_key):
             "X-Goog-FieldMask": field_mask,
         },
         json={
-            "textQuery": f"animal shelters near {location}",
+            "textQuery": f"animal shelters with {radius_miles} miles of {location}",
             "locationBias": {
                 "circle": {
                     "center": {
