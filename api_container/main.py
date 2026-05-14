@@ -55,6 +55,15 @@ async def AddToDataBase(req: LocationRequest):
         print("No Shelters found in search area.")
         return
     rows = []
+    
+    response = (
+        supabase
+        .table("shelters")
+        .select("*")
+        .execute()
+    )
+    
+    existing_rows = response.data
 
     for location in shelters:
         row = normalize_shelter(location)
@@ -62,10 +71,12 @@ async def AddToDataBase(req: LocationRequest):
         if not row["name"] or not row["external_id"]:
             print(f"Skipping incomplete shelter: {location}")
             continue
-
-        rows.append(row)
-        print(f"Prepared: {row['name']}")
-
+        
+        if row not in existing_rows:
+            rows.append(row)
+            print(f"Prepared: {row['name']}")
+        else:
+            print(f"{row['name']} already in database.")
     if dry_run:
         print("\nDry run only. Rows prepared:")
         for row in rows:

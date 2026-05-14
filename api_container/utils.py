@@ -2,14 +2,15 @@ import os, sys, requests
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 from supabase import create_client
+from fastapi import HTTPException
 
 SOURCE_PLATFORM = "google_places"
 
-def require_env(name):
+def require_env(name: str) -> str:
     value = os.getenv(name)
     if not value:
         print(f"Missing required env var: {name}", file=sys.stderr)
-        sys.exit(1)
+        raise HTTPException(status_code=500, detail=f"Missing env var: {name}")
     return value
 
 def normalize_shelter(place):
