@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-import os, sys
+import os, sys, tldextract
 from dotenv import load_dotenv
 from supabase import create_client
 from google_api import *
@@ -65,14 +65,23 @@ async def AddToDataBase(req: LocationRequest):
     
     existing_rows = response.data
 
+    existing_domains = clean_domains(existing_rows) 
+
     for location in shelters:
         row = normalize_shelter(location)
 
         if not row["name"] or not row["external_id"]:
             print(f"Skipping incomplete shelter: {location}")
             continue
-        
-        if row not in existing_rows:
+
+        # Passing candidate website as a single length list
+        if row['website'] == None or clean_domains([row]) in existing_domains:
+            # check again with long/lat
+            if row['latitude'] == existing_rows['latitude'] and row['longitude'] == existing_rows['longitude']:
+                print(f"{row['name']} already in database.")
+                continue
+        # Final last check
+        elif row not in existing_rows:
             rows.append(row)
             print(f"Prepared: {row['name']}")
         else:

@@ -1,4 +1,4 @@
-import os, sys, requests
+import os, sys, requests, tldextract
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 from supabase import create_client
@@ -12,6 +12,14 @@ def require_env(name: str) -> str:
         print(f"Missing required env var: {name}", file=sys.stderr)
         raise HTTPException(status_code=500, detail=f"Missing env var: {name}")
     return value
+
+def clean_domains(urls):
+    domains = []
+    for url in urls:
+        if url['website'] != None:
+            domain_ext = tldextract.extract(url['website'])
+            domains.append(f"{domain_ext.domain}.{domain_ext.suffix}")
+    return domains  
 
 def normalize_shelter(place):
     location = place.get("location", {})
