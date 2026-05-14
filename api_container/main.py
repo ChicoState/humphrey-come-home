@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 import os, sys
@@ -8,6 +9,12 @@ from google_api import *
 from utils import *
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class LocationRequest(BaseModel):
     city: str
@@ -72,6 +79,5 @@ async def AddToDataBase(req: LocationRequest):
     )
 
     print(f"Upserted {len(result.data)} shelters.")
-
 
 
